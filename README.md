@@ -14,7 +14,7 @@
 
 【首页】->【小程序开发与管理】->【普通小程序开发者工具】->【微信开发者工具】->【稳定版Windows64】
 
-
+<div STYLE="page-break-after: always;"></div>
 
 ### 1.2 第一个微信小程序
 
@@ -33,7 +33,7 @@
 <view>Hello Wechat!</view>
 ```
 
-
+<div STYLE="page-break-after: always;"></div>
 
 ### 1.3 字体样式设置
 
@@ -192,3 +192,86 @@ view组件支持使用style和class属性来设置组件的样式。
 在`app.wxss`中定义的样式类属于全局样式类，可以在项目的任何文件中使用。
 
 在`index.wxss`中定义的样式类一般只在`index.wxml`中使用。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 1.4 文本样式设置
+
+创建一个微信小程序，利用class属性设置文本样式，包括：文本的颜色、字符间距、对齐文本、装饰文本、对文本进行缩进，等等。
+
+![](./img/2.png)
+
+1. 添加两段文本
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">文本样式设置</view>
+  <view class="textStyle01">
+    文本属性可定义文本的外观。通过设置文本属性，您可以改变文本的颜色、字符间距、对齐文本、装饰文本、对文本进行缩进，等等。
+  </view>
+  ===========================
+  <view class="textStyle02">
+    North China University of Technology (NCUT) is located in the western part of Beijing, which is a municipal university founded in 1946.
+  </view>
+</view>
+```
+
+2. 重复利用1.3章节中的`app.wxss`样式
+
+```css
+/**app.wxss**/
+
+.box {
+  border: 1px solid silver;
+  margin: 20rpx;
+  padding: 20rpx;
+}
+
+.title {
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 15px;
+  color: red;
+}
+```
+
+3. 设置样式
+
+```css
+/**index.wxss**/
+
+.textStyle01 {
+  color: red;
+  letter-spacing: 10px;
+  text-align: left;
+  text-indent: 50px;
+  text-decoration: underline;
+  text-decoration-color: #00f;
+  line-height: 30px;
+  white-space: normal;
+}
+
+.textStyle02 {
+  text-align: justify;
+  word-spacing: 20px;
+  text-transform: uppercase;
+  white-space: pre-wrap;
+}
+```
+
+| 属性                  | 含义                       |
+| --------------------- | -------------------------- |
+| color                 | 字体颜色                   |
+| text-align            | 文本对齐方式               |
+| text-indent           | 首行缩进                   |
+| letter-spacing        | 字母之间的距离             |
+| word-spacing          | 单词间距，以空格来区分单词 |
+| white-space           | 文档中的空白处             |
+| text-decoration       | 文本修饰样式               |
+| text-decoration-color | 文本修饰颜色               |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 1.5 图片与声音
