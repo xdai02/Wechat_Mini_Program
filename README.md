@@ -275,3 +275,93 @@ view组件支持使用style和class属性来设置组件的样式。
 <div STYLE="page-break-after: always;"></div>
 
 ### 1.5 图片与声音
+
+设计一个小程序，小程序运行后显示一张猫图，点击猫图后会发出猫叫的声音。
+
+1. 添加标题和样式
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">图片和声音</view>
+</view>
+```
+
+```css
+/**app.wxss**/
+
+.box {
+  border: 1px solid silver;
+  margin: 20rpx;
+  padding: 20rpx;
+}
+
+.title {
+  font-size: 25px;
+  text-align: center;
+  margin-bottom: 15px;
+  color: red;
+}
+```
+
+2. 添加图片路径，绑定点击事件
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">图片和声音</view>
+  <view>
+    <image src="{{imgSrc}}" bindtap="tapCat"></image>
+  </view>
+</view>
+```
+
+3. 设置图片路径
+
+```js
+// index.js
+
+Page({
+  data: {
+    imgSrc: "/images/kitty.png"
+  },
+  // 事件处理函数
+})
+```
+
+> 如图片显示超出边框，更换机型。
+
+4. 实现tap事件
+
+```js
+// index.js
+
+Page({
+	data: {
+		imgSrc: "/images/kitty.png"
+	},
+	// 事件处理函数
+	tapCat: function () {
+		let audio = wx.createInnerAudioContext();
+		audio.src = "audios/meow.mp3";
+		audio.play();
+	}
+})
+```
+
+images组件：支持JPG、PNG、SVG格式，用`src`属性指定图片的路径。
+
+音频：首先利用API函数`wv.createInnerAudioContext()`创建音频上下文，然后设置该上下文的`src`，并利用`play()`函数播放音频。
+
+数据绑定：WXML文件中的动态数据通过`{{}}`符号与JS文件中的数据进行绑定，这样JS中的数据就可以传给WXML文件。这种传递是单向的。
+
+事件绑定：在WXML文件组件标签内利用`bind...=函数名`绑定组件事件与函数，并在JS文件中定义该事件函数。
+
+<div STYLE="page-break-after: always;"></div>
+
+## 第2章 盒模型与页面布局
+
+### 2.1 盒模型
+
