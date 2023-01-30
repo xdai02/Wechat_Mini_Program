@@ -278,6 +278,8 @@ view组件支持使用style和class属性来设置组件的样式。
 
 设计一个小程序，小程序运行后显示一张猫图，点击猫图后会发出猫叫的声音。
 
+![](./img/3.png)
+
 1. 添加标题和样式
 
 ```html
@@ -364,4 +366,88 @@ images组件：支持JPG、PNG、SVG格式，用`src`属性指定图片的路径
 ## 第2章 盒模型与页面布局
 
 ### 2.1 盒模型
+
+设计一个小程序，利用盒模型的相关属性实现不同的布局模式。
+
+![](./img/4.png)
+
+1. 添加三段文本
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+	<view class="title">盒模型</view>
+	<view class="boxModel01">
+		.boxModel01 { width: 80%; height: 120px; background-color: yellow; border: 3px dashed #FF0000; padding: 20px; margin: 20px; }
+	</view>
+	<view class="boxModel02">
+		.boxModel02 { width: 80%; height: 120px; border: 5px solid rgb(0, 255, 0); padding-top: 20px; margin-bottom: 20px; }
+	</view>
+	<view class="boxModel03">
+		.boxModel03 { width: 80%; height: 120px; border: 5px dotted rgba(0, 0, 255, 0.3); padding-left: 20px; margin: 0 20px; }
+	</view>
+</view>
+```
+
+2. 设置盒模型样式
+
+```css
+/**index.wxss**/
+
+.boxModel01 {
+	width: 80%;
+	height: 120px;
+	background-color: yellow;
+	border: 3px dashed #FF0000;
+	padding: 20px;
+	margin: 20px;
+}
+
+.boxModel02 {
+	width: 80%;
+	height: 120px;
+	border: 5px solid rgb(0, 255, 0);
+	padding-top: 20px;
+	margin-bottom: 20px;
+}
+
+.boxModel03 {
+  width: 80%;
+  height: 120px;
+  border: 5px dotted rgba(0, 0, 255, 0.3);
+  padding-left: 20px;
+  margin: 0 20px; /* 外上下边距为0，左右边距为20px */
+}
+```
+
+所有WXML元素都可以看作盒子，在WXSS中，box model这一术语是用来设计和布局时使用。盒模型本质上是一个盒子，封装周围的WXML元素，它包括：边距、边框、填充和实际内容。
+
+![](./img/5.png)
+
+边框样式：`border-style`属性用来定义边框的样式。
+
+| 边框样式 | 说明                                         |
+| -------- | -------------------------------------------- |
+| none     | 默认无边框                                   |
+| dotted   | 定义一个点线边框                             |
+| dashed   | 定义一个虚线边框                             |
+| solid    | 定义实现边框                                 |
+| double   | 定义两个边框                                 |
+| groove   | 定义3D沟槽边框，效果取决于边框的颜色值       |
+| ridge    | 定义3D脊边框，效果取决于边框的颜色值         |
+| inset    | 定义一个3D的嵌入边框，效果取决于边框的颜色值 |
+| outset   | 定义一个3D突出边框，效果取决于边框的颜色值   |
+
+边框宽度：`border-width`属性用于设置边框宽度。
+
+边框颜色：`border-color`属性用于设置边框的颜色。
+
+单独设置各边：可以通过`border-top`、`border-right`、`border-bottom`、`border-left`属性设置不同侧面的边框。
+
+一次性设置边框属性：可以利用`border`属性一次性设置边框宽度、边框样式和边框颜色。如`border: 3px dashed #00ff00`。
+
+<div STYLE="page-break-after: always;"></div>
+
+## 2.2 flex页面布局
 

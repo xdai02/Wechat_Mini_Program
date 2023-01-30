@@ -1,0 +1,26 @@
+/**index.wxss**/
+
+.boxModel01 {
+	width: 80%;
+	height: 120px;
+	background-color: yellow;
+	border: 3px dashed #FF0000;
+	padding: 20px;
+	margin: 20px;
+}
+
+.boxModel02 {
+	width: 80%;
+	height: 120px;
+	border: 5px solid rgb(0, 255, 0);
+	padding-top: 20px;
+	margin-bottom: 20px;
+}
+
+.boxModel03 {
+  width: 80%;
+  height: 120px;
+  border: 5px dotted rgba(0, 0, 255, 0.3);
+  padding-left: 20px;
+  margin: 0 20px; /* 外上下边距为0，左右边距为20px */
+}
