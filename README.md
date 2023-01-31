@@ -449,5 +449,244 @@ images组件：支持JPG、PNG、SVG格式，用`src`属性指定图片的路径
 
 <div STYLE="page-break-after: always;"></div>
 
-## 2.2 flex页面布局
+### 2.2 flex页面布局
+
+设计一个小程序，利用flex弹性盒模型布局实现三栏布局、左右混合布局和上下混合布局。
+
+![](./img/6.png)
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">页面局部示例</view>
+
+  <!-- 实现三栏水平均匀布局 -->
+  <view style="display: flex; text-align: center; line-height: 80rpx;">
+    <view style="background-color: red; flex-grow: 1;">1</view>
+    <view style="background-color: green; flex-grow: 1;">2</view>
+    <view style="background-color: blue; flex-grow: 1;">3</view>
+  </view>
+  -------------------------------
+
+  <!-- 实现左右混合布局 -->
+  <view style="display: flex; height: 300rpx; text-align: center;">
+    <view style="background-color: red; width: 250rpx; line-height: 300rpx;">1</view>
+    <view style="display: flex; flex-direction: column; flex-grow: 1; line-height: 150rpx;">
+      <view style="background-color: green; flex-grow: 1;">2</view>
+      <view style="background-color: blue; flex-grow: 1;">3</view>
+    </view>
+  </view>
+  -------------------------------
+
+  <!-- 实现上下混合布局 -->
+  <view style="display: flex; flex-direction: column; line-height: 300rpx; text-align: center;">
+    <view style="background-color: red; height: 100rpx; line-height: 100rpx;">1</view>
+    <view style="flex-grow: 1; display: flex; flex-direction: row;">
+      <view style="background-color: green; flex-grow: 1;">2</view>
+      <view style="background-color: blue; flex-grow: 1;">3</view>
+    </view>
+  </view>
+</view>
+```
+
+Flex是Flexible Box的缩写，意为“弹性布局”，用来对盒状模型进行布局。
+
+| 属性            | 含义                                 | 合法值                                                       |
+| --------------- | ------------------------------------ | ------------------------------------------------------------ |
+| flex-direction  | 设置主轴方向（即项目排列方向）       | row, row-reverse, column, column-reverse                     |
+| flex-wrap       | 如果一条轴线排不下，如何换行         | nowrap, wrap, wrap-reverse                                   |
+| justify-content | 项目沿主轴方向的对齐方式             | flex-start, flex-end, center, space-between, space-around    |
+| align-items     | 项目在交叉轴上的对齐方式             | flex-start, flex-end, center, baseline, stretch              |
+| align-content   | 酵母在交叉轴上有多根轴线时的对齐方式 | flex-start, flex-end, center, space-between, space-around, stretch |
+
+| 属性        | 说明                                                         |
+| ----------- | ------------------------------------------------------------ |
+| order       | 项目的排列顺序。数值越小，排列越靠前，默认为0                |
+| flex-grow   | 各项目宽度之和小于容器宽度时，各项目分配容器剩余宽度的方法比例，默认为0，即不方法 |
+| flex-shrink | 各项目宽度之和大于容器宽度时，各项目缩小自己宽度的比例，默认为1，即将项目缩小 |
+| flex-basis  | 元素宽度的属性，和width功能相同，但比width的优先级高         |
+| flex        | 是flex-grow、flex-shrink和flex-basis的简写，默认值为0 1 auto，后两个属性可选 |
+| align-self  | 允许单个项目有与其它项目不一样的对齐方式，可覆盖align-items属性。默认值为auto，表示继承父元素的align-items属性，如果没有父元素，则等同于stretch |
+
+`line-height`可以理解为每行文字所占的空度。比如说有一行高度为20px的文字，如果设置为`line-height: 50px`，那就是说，这行文字的高度会占50px，由于每个字的高度只有20px，于是浏览器就把多出来的30px（50px - 20px）在这行文字的上面加上了15px、下面加上了15px，这样文字就在这50px的空间内是居中的了。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 2.3 导航与布局
+
+设计一个实现导航功能的小程序。导航页面包含多行导航内容，每行导航内容包括1个图标、1个说明文本和1个图片，图标在最左侧，文本在图标右侧，图片在最右侧。当点击某一行导航内容时都能进入相应的页面。
+
+![](./img/7.png)
+
+1. 设计页面
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">框架案例</view>
+
+  <navigator url="/pages/HelloWechat/index">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">HelloWechat</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+</view>
+```
+
+2. 更改样式
+
+```css
+/**index.wxss**/
+
+navigator {
+  margin: 5px;
+  font-size: 20px;
+}
+
+.waikuang {
+  display: flex;
+  flex-direction: row;
+  margin: 5px 0px;
+  padding: 5px 0px;
+}
+
+.myleft {
+  margin-right: 10px;
+}
+
+.mycenter {
+  flex: 1;
+}
+
+.myright {
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 5px;
+}
+```
+
+3. 将`HelloWechat`目录放到`pages`目录下
+
+    HelloWechat
+
+    	- index.js
+    	- index.json
+    	- index.wxml
+    	- index.wxss
+
+4. 修改配置文件，添加页面
+
+```json
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/HelloWechat/index"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle":"black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
+```
+
+5. 使用相同方法，完成其它导航栏。
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">框架案例</view>
+
+  <navigator url="/pages/HelloWechat/index">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">HelloWechat</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/FontStyle/index">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">FontStyle</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/TextStyle/index">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">TextStyle</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+</view>
+```
+
+```json
+{
+  "pages":[
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/HelloWechat/index",
+    "pages/FontStyle/index",
+    "pages/TextStyle/index"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle":"black"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}
+```
+
+`navigator`组件能够实现页面导航
+
+- navigator组件属性
+
+| 属性      | 说明                                                         |
+| --------- | ------------------------------------------------------------ |
+| target    | 在哪个目标上发生跳转，其合法值为self和miniProgram，默认值为self |
+| url       | 当前小程序内的跳转地址                                       |
+| open-type | 跳转方式                                                     |
+| delta     | 当open-type为'navigatorBack'时有效，表示回退的层数           |
+| app-id    | 当target="miniProgram"时有效，要打开的小程序的appId          |
+| path      | 当target="miniProgram"时有效，打开的页面路径如果为空则打开首页 |
+
+- open-type合法值
+
+| 值           | 说明                                         |
+| ------------ | -------------------------------------------- |
+| navigate     | 保留当前页面，跳转到应用内的某个页面         |
+| redirect     | 关闭当前页面，跳转到应用内的某个页面         |
+| switchTab    | 跳转到tabBar页面，并关闭其它所有非tabBar页面 |
+| reLaunch     | 关闭所有页面，打开应用内的某个页面           |
+| navigateBack | 关闭当前页面，返回上一页面或多级页面         |
+| exit         | 退出小程序，target="miniProgram"时生效       |
+
+`icon`组件显示一个图标
+
+- icon组件属性
+
+| 属性名 | 说明                                                         |
+| ------ | ------------------------------------------------------------ |
+| type   | icon的类型，有效值：success, success_no_circle, info, warn, waiting, cancel, download, search, clear |
+| size   | icon的大小                                                   |
+| color  | icon的颜色                                                   |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 2.4 Float页面布局
 
