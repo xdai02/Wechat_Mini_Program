@@ -1,0 +1,6 @@
+/**index.wxss**/
+
+input {
+  margin: 20px 0; /* 设置上下边距为20px，左右边距为0 */
+  border-bottom: 1px solid blue;  /* 下边框粗细为1px、实线、蓝色 */
+}

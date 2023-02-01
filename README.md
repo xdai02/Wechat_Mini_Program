@@ -2,7 +2,7 @@
 
 # 微信小程序
 
-## 第一章 初识微信小程序
+## 第1章 初识微信小程序
 
 ### 1.1 注册小程序账号
 
@@ -689,4 +689,213 @@ navigator {
 <div STYLE="page-break-after: always;"></div>
 
 ### 2.4 Float页面布局
+
+设计一个小程序，利用float布局实现相应的布局效果。
+
+![](./img/8.png)
+
+1. 实现结构
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">Float页面布局</view>
+
+  <view class="bg1">
+    <view class="box1">box1</view>
+    <view class="box2">box2</view>
+    <view class="box3">box3</view>
+    <view class="box4">box4</view>
+  </view>
+
+  <view class="bg2">
+    <view class="header">header</view>
+    <view class="leftBar">leftBar</view>
+    <view class="main">main</view>
+    <view class="rightBar">rightBar</view>
+    <view class="footer">footer</view>
+  </view>
+</view>
+```
+
+2. 实现样式
+
+```css
+/**index.wxss**/
+
+.bg1 {
+  height: 240px;
+  width: 200px;
+  margin: 10px auto;  /* 上下边距为10px，左右边距平均分配（实现水平居中对齐） */
+}
+
+.box1 {
+  width: 100px;
+  height: 80px;
+  background-color: red;
+  margin: 0 auto;
+}
+
+.box2 {
+  width: 100px;
+  height: 80px;
+  background-color: yellow;
+  float: left;
+}
+
+.box3 {
+  width: 100px;
+  height: 80px;
+  background-color: gold;
+  float: right;
+}
+
+.box4 {
+  width: 100px;
+  height: 80px;
+  background-color: greenyellow;
+  clear: both;  /* 清除左右两边浮动 */
+  margin: 0 auto;
+}
+
+.bg2 {
+  height: 400rpx;
+  text-align: center;
+  margin: 10px auto;
+}
+
+.header {
+  line-height: 100rpx;
+  background-color: red;
+}
+
+.leftBar {
+  width: 20%;
+  line-height: 200rpx;
+  background-color: yellow;
+  float:left;
+}
+
+.main {
+  width: 60%;
+  line-height: 200rpx;
+  background-color: rgb(157, 255, 0);
+  float: left;
+}
+
+.rightBar {
+  width: 20%;
+  line-height: 200rpx;
+  background-color: yellow;
+  float: right;
+}
+
+.footer {
+  line-height: 100rpx;
+  background-color: red;
+  clear: both;
+}
+```
+
+`float`属性：浮动的框可以向左或向右移动，直到它的外边缘碰到包含框或另一个浮动框的边框为止。
+
+| 值      | 描述                                             |
+| ------- | ------------------------------------------------ |
+| left    | 元素向左浮动                                     |
+| right   | 元素向右浮动                                     |
+| none    | 默认值，元素不浮动，并会显示其在文本中出现的位置 |
+| inherit | 规定应该从父元素继承float属性的值                |
+
+`clear`属性：清除浮动。
+
+| 合法值  | 说明                               |
+| ------- | ---------------------------------- |
+| left    | 在左侧不允许有浮动元素             |
+| right   | 在右侧不允许有浮动元素             |
+| both    | 在左右两侧均不允许有浮动元素       |
+| none    | 默认值，允许浮动元素出现在左右两侧 |
+| inherit | 继承父元素clear属性的值            |
+
+利用`margin`属性实现水平居中对齐：如果要实现元素的水平居中对齐，可以通过让`margin`左右边距为`auto`的方式来实现，这样块元素将平均分配左右边距，从而实现水平居中对齐。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 2.5 摄氏温度转华氏温度
+
+设计一个根据设置温度C求华氏温度F的微信小程序，计算公式如下：
+$$
+F = (9 / 5) * C + 32
+$$
+![](./img/9.png)
+
+1. 实现页面
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">摄氏温度转华氏温度</view>
+  <view>
+    <input placeholder="请输入摄氏温度" type="digit" bindblur="calc"></input>
+  </view>
+  <view>华氏温度为：{{F}}</view>
+</view>
+```
+
+2. 实现样式
+
+```css
+/**index.wxss**/
+
+input {
+  margin: 20px 0; /* 设置上下边距为20px，左右边距为0 */
+  border-bottom: 1px solid blue;  /* 下边框粗细为1px、实线、蓝色 */
+}
+```
+
+3. 实现逻辑
+
+```js
+// index.js
+
+Page({
+  calc: function(e) {
+    var C;
+    C = e.detail.value; // 获取input组件中输入的数值
+    this.setData({		// setData传入对象
+      F: C * 9 / 5 + 32
+    })
+  }
+})
+```
+
+`input`输入框组件：用于输入数据。
+
+| 属性名            | 说明                                       |
+| ----------------- | ------------------------------------------ |
+| value             | 输入框中的内容                             |
+| type              | input的类型                                |
+| password          | 是否是密码类型                             |
+| placeholder       | 输入框为空时占位符                         |
+| placeholder-style | 指定placeholder的样式                      |
+| maxlength         | 最大输入长度，设置为-1的时候不限制最大长度 |
+| bindinput         | 键盘输入时触发                             |
+| bindfocus         | 输入框聚焦时触发                           |
+| bindblur          | 输入框失去焦点时触发                       |
+
+`type`属性：真机运行时键盘的类型。
+
+| 值     | 说明               |
+| ------ | ------------------ |
+| text   | 文本输入键盘       |
+| number | 数字输入键盘       |
+| idcard | 身份证输入键盘     |
+| digit  | 带小数点的数字键盘 |
+
+<div STYLE="page-break-after: always;"></div>
+
+## 第3章 流程控制结构和函数
+
+### 3.1 条件结构和数学函数
 
