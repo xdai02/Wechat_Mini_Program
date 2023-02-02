@@ -899,3 +899,386 @@ Page({
 
 ### 3.1 条件结构和数学函数
 
+设计一个利用条件结构和数学函数进行计算的小程序。当输入x值时，根据下面的公式计算出y的值。
+$$
+y = |x| \ (x < 0)\\
+y = e^x sinx \ (0 \le x \le 10)\\
+y = x^3 \ (10 \le x < 20)\\
+y = (3 +2x)lnx \ (x \ge 20)
+$$
+
+1. 实现页面
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">条件语句和数学函数</view>
+  <view>
+    <input placeholder="请输入x的值" bindblur="calc"></input>
+  </view>
+  <view>计算y的值为：{{y}}</view>
+</view>
+```
+
+2. 实现样式
+
+```css
+/**index.wxss**/
+
+input {
+  border-bottom: 1px solid blue;
+  margin: 20px 0; /* 上下外边距为20px，左右外边距为0 */
+}
+```
+
+3. 实现逻辑
+
+```js
+// index.js
+
+Page({
+  calc: function(e) {
+    var x, y;
+    var x = e.detail.value; // 获取input组件的value值
+
+    if(x < 0) {
+      y = Math.abs(x);
+    } else if(x < 10) {
+      y = Math.exp(x) * Math.sin(x);
+    } else if(x < 20) {
+      y = Math.pow(x, 3);
+    } else {
+      y = (3 + 2 * x) * Math.log(x);
+    }
+
+    this.setData({
+      y: y
+    })
+  }
+})
+```
+
+`Math`对象：用于执行数学任务。
+
+| 属性和方法 | 说明                                           |
+| ---------- | ---------------------------------------------- |
+| E          | 返回算术常量e，即自然对数的底数（约等于2.718） |
+| PI         | 返回圆周率（约等于3.14159）                    |
+| abs(x)     | 返回数的绝对值                                 |
+| ceil(x)    | 对数进行上舍入                                 |
+| cos(x)     | 返回数的余弦                                   |
+| exp(x)     | 返回e的指数                                    |
+| floor(x)   | 对数进行下舍入                                 |
+| log(x)     | 返回数的自然对数（底为e）                      |
+| max(x, y)  | 返回x和y中的最高值                             |
+| min(x, y)  | 返回x和y中的最低值                             |
+| pow(x, y)  | 返回x的y次幂                                   |
+| random()   | 返回0-1之间的随机数                            |
+| round(x)   | 把数四舍五入为最接近的整数                     |
+| sin(x)     | 返回数的正弦                                   |
+| sqrt(x)    | 返回数的平方根                                 |
+| tan(x)     | 返回角的正切                                   |
+| valueOf()  | 返回Math对象的原始值                           |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 3.2 学生成绩计算器
+
+设计一个计算学生平均成绩的小程序。当输入学生信息和各门功课成绩并提交后，能够显示学生的信息及平均成绩。
+
+![](./img/10.png)
+
+1. 实现页面
+
+```html
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">成绩计算器</view>
+  
+  <input placeholder="请输入你的名字" placeholder-class="placeholder" bindinput="nameInput"></input>
+  <input placeholder="请输入语文成绩" placeholder-class="placeholder" bindinput="chineseInput" type="number"></input>
+  <input placeholder="请输入数学成绩" placeholder-class="placeholder" bindinput="mathInput" type="number"></input>
+
+  <button bindtap="mysubmit">提交</button>
+
+  <view hidden="{{flag}}" class="content">
+    <view class="content-item">姓名：{{name}}</view>
+    <view class="content-item">语文成绩：{{chinese_score}}</view>
+    <view class="content-item">数学成绩：{{math_score}}</view>
+    <view class="content-item">平均成绩：{{average}}</view>
+  </view>
+</view>
+```
+
+2. 实现样式
+
+```css
+/**index.wxss**/
+
+page {
+  background: #f1f0f6;
+}
+
+.placeholder {
+  font-size: 15px;
+}
+
+input {
+  background: #fff;
+  height: 120rpx;
+  margin: 10px;
+  padding-left: 8px;
+  border: solid 1px silver;
+}
+
+button {
+  margin: 30rpx 50rpx;
+  background-color: red;
+  color: white;
+}
+
+.content {
+  background: #fff;
+  padding: 10px;
+  color: #f00;
+}
+
+.content-item {
+  padding: 3rpx;
+  font-size: 16px;
+  line-height: 30px;
+}
+```
+
+3. 实现逻辑
+
+```js
+// index.js
+
+Page({
+  data: {
+    flag: true,
+    name: '',
+    chinese_score: '',
+    math_score: '',
+    average: ''
+  },
+
+  nameInput: function(e) {
+    console.log("name");
+    this.setData({
+      name: e.detail.value
+    });
+  },
+
+  chineseInput: function(e) {
+    this.setData({
+      chinese_score: e.detail.value
+    });
+  },
+
+  mathInput: function(e) {
+    this.setData({
+      math_score: e.detail.value
+    });
+  },
+
+  mysubmit: function() {
+    console.log("test");
+    if(this.data.name == "" || this.data.chinese_score == "" || this.data.math_score == "") {
+      
+      return;
+    } else {
+      var avg = (this.data.chinese_score * 1 + this.data.math_score * 1) / 2;
+      this.setData({
+        flag: false,
+        average: avg,
+      });
+    }
+  }
+})
+```
+
+`button`组件
+
+| 属性      | 说明                                                         |
+| --------- | ------------------------------------------------------------ |
+| size      | 按钮的大小。default：默认大小、mini：小尺寸                  |
+| type      | 按钮类型。primary：绿色、default：白色、warn：红色           |
+| plain     | 按钮是否镂空，背景色是否透明                                 |
+| disabled  | 是否禁用                                                     |
+| loading   | 是否带loading图标                                            |
+| form-type | 用于<form>组件的提交或重置。submit：提交表单、reset：重置表单 |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 3.3 循环求和计算器
+
+设计一个小程序，利用循环语句求2个数之间所有整数的和。
+
+1. 实现页面
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">利用循环语句求和</view>
+  <view>
+    <input placeholder="请输入起点数值" type="number" bindblur="startNum"/>
+    <input placeholder="请输入终点数值" type="number" bindblur="endNum"/>
+  </view>
+  <view>两个数之间的和为：{{sum}}</view>
+  <button type="primary" bindtap="calc">求和</button>
+</view>
+```
+
+2. 实现样式
+
+```css
+/**index.wxss**/
+
+input {
+  border-bottom: 1px solid blue;
+  margin: 20px 0;
+}
+
+button {
+  margin-top:  20px;
+}
+```
+
+3. 实现逻辑
+
+```js
+// index.js
+
+var start, end, sum; // 全局变量
+
+Page({
+  startNum: function (e) {
+    start = parseInt(e.detail.value);
+  },
+
+  endNum: function (e) {
+    end = parseInt(e.detail.value);
+  },
+
+  calc: function () {
+    sum = 0;
+    for (var i = start; i <= end; i++) {
+      sum = sum + i;
+    }
+    this.setData({
+      sum: sum
+    })
+  }
+})
+```
+
+JavaScript全局对象：可用于所有内建的JavaScript对象。
+
+| 属性和方法   | 描述                           |
+| ------------ | ------------------------------ |
+| Infinity     | 代表正的无穷大的数值           |
+| NaN          | 指示某个值是不是数字值         |
+| undefined    | 指示未定义的值                 |
+| isFinite()   | 是否为有穷大                   |
+| isNaN()      | 是否是数字                     |
+| Number()     | 把对象的值转换为数字           |
+| parseFloat() | 解析一个字符串并返回一个浮点数 |
+| parseInt()   | 解析一个字符串并返回一个整数   |
+| String()     | 把对象的值转换为字符串         |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 3.4 随机数求和
+
+设计一个小程序，运行后产生一列100以内的随机数（保留小数点后2位），并显示这些随机数的和；当点击按钮时，产生一列新的随机数，并显示这些随机数的和。
+
+![](./img/11.png)
+
+1. 实现页面
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">随机数求和</view>
+  <view>产生的随机数列为：</view>
+  <view wx:for="{{rand}}">{{item}}</view>
+  <view>随机数列的和为：{{sum}}</view>
+  <button type="primary" bindtap="newRand">产生新的随机数</button>
+</view>
+```
+
+2. 实现逻辑
+
+```css
+// index.js
+var rand, sum;
+
+function createRand() {
+  rand = []
+  sum = 0;
+  for(var i = 0; i < 6; i++) {
+    var r = (Math.random() * 100).toFixed(2) * 1;
+    rand.push(r);
+    sum += rand[i];
+    console.log(rand[i]);
+  }
+  console.log(sum);
+}
+
+Page({
+  onLoad: function() {
+    createRand();
+    this.setData({
+      rand: rand,
+      sum: sum
+    })
+  },
+
+  newRand: function() {
+    createRand();
+    this.setData({
+      rand: rand,
+      sum: sum
+    })
+  }
+})
+```
+
+对象时拥有属性和方法的数据，属性是静态数据，方法是能够在对象上执行的动作，即动态数据。
+
+JavaScript中的常用对象包括：字符串、数字、数组、日期等。
+
+`Array`对象：用于在单个的变量中存储多个值。
+
+| 属性和方法 | 说明                                                         |
+| ---------- | ------------------------------------------------------------ |
+| length     | 设置或返回数组中元素的个数                                   |
+| concat()   | 连接两个或更多的数组，并返回结果                             |
+| join()     | 把数组的所有元素放入一个字符串，元素通过指定的分隔符进行分隔 |
+| pop()      | 删除并返回数组的最后一个元素                                 |
+| push()     | 向数组的添加一个或多个元素，并返回新的长度                   |
+| reverse()  | 使数组中的元素反序                                           |
+| shift()    | 删除并返回数组的第一个元素                                   |
+
+`Number`对象：该对象是原始数值的包装对象。
+
+| 属性和方法        | 说明                                               |
+| ----------------- | -------------------------------------------------- |
+| MAX_VALUE         | 可表示的最大数                                     |
+| MIN_VALUE         | 可表示的最小数                                     |
+| NaN               | 非数字值                                           |
+| NEGATIVE_INFINITY | 负无穷大，溢出时返回该值                           |
+| POSITIVE_INFINITY | 正无穷大，溢出时返回该值                           |
+| toString()        | 把数值转换为字符串，使用指定的基数                 |
+| toLocaleString()  | 把数值转换为字符串，使用本地数字格式熟顺序         |
+| toFixed()         | 把数值转换为字符串，结果的小数点后有指定位数的数字 |
+| toExponential()   | 把对象的值转换为指数计数法                         |
+| toPrecision()     | 把数值格式化为指定的长度                           |
+| valueOf()         | 返回一个Number对象的基本数字值                     |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 3.5 计时器

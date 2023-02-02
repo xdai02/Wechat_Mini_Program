@@ -1,0 +1,6 @@
+/**index.wxss**/
+
+input {
+  border-bottom: 1px solid blue;
+  margin: 20px 0; /* 上下外边距为20px，左右外边距为0 */
+}
