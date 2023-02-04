@@ -8,9 +8,9 @@
 
 小程序官网：https://mp.weixin.qq.com/cgi-bin/wx
 
-邮箱：dxtterry@gmail.com
+邮箱：
 
-【开发】->【开发管理】->【开发设置】->【APPID】： wxf4df2562207e1992
+【开发】->【开发管理】->【开发设置】->【APPID】： 
 
 【首页】->【小程序开发与管理】->【普通小程序开发者工具】->【微信开发者工具】->【稳定版Windows64】
 
@@ -1282,3 +1282,243 @@ JavaScript中的常用对象包括：字符串、数字、数组、日期等。
 <div STYLE="page-break-after: always;"></div>
 
 ### 3.5 计时器
+
+设计一个实现倒计时功能的小程序，小程序执行后，首先显示空白界面，过2秒后才显示计时界面，点击“开始计时”按钮后开始倒计时，点击“停止计时”按钮后停止计时。
+
+![](./img/12.png)
+
+```html
+<!--index.wxml-->
+<view class="box" hidden="{{hidden}}">
+  <view class="title">计时器</view>
+  <view class="time">{{num}}</view>
+  <view class="btnLayout">
+    <button bindtap="start">开始计时</button>
+    <button bindtap="stop">停止计时</button>
+  </view>
+</view>
+```
+
+```css
+/**index.wxss**/
+.time {
+  width: 90%;
+  line-height: 200px;
+  background-color: yellow;
+  color: red;
+  font-size: 100px;
+  text-align: center;
+  border: 1px solid silver;
+  border-radius: 30px;
+  margin: 15px;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+}
+
+button {
+  width: 45%;
+}
+```
+
+```js
+// index.js
+var num = 60;
+var timerID;
+
+Page({
+  data: {
+    hidden: true,
+    num: num
+  },
+
+  onLoad: function(options) {
+    var that = this;
+    setTimeout(() => {
+      that.show()
+    }, 2000)
+  },
+
+  show: function() {
+    var that = this;
+    that.setData({
+      hidden: false
+    })
+  },
+
+  start: function() {
+    var that = this;
+    timerID = setInterval(() => {
+      that.timer()
+    }, 1000);
+  },
+
+  stop: function() {
+    clearInterval(timerID);
+  },
+
+  timer: function() {
+    var that = this;
+    console.log(num);
+    if(num > 0) {
+      that.setData({
+        num: num--
+      })
+    } else {
+      that.setData({
+        num: 0
+      })
+    }
+    console.log(num);
+  }
+})
+```
+
+`number setTimeout(function callback, number delay, any rest)`：设定一个计时器，在计时到期以后执行注册的回调函数。
+
+`clearTimeout(number timeoutID)`：取消由`setTimeout()`设置的计时器。参数`timeoutID`为要取消的计时器的ID。
+
+`number setInterval(function callback, number delay, any rest)`：设定一个计时器，按照指定的周期（以毫秒计）来执行注册的回调函数。
+
+`clearInterval(number intervalID)`：取消由`setInterval()`设置的计时器。参数`intervalID`为要取消的计时器的ID。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 3.6 自动随机变化的三色旗
+
+设计一个小程序，开始时界面上显示一个三色旗和一个按钮，当点击按钮时，三色旗的颜色会发生随机变化，即使不点击按钮，三色旗的颜色也会每隔一定时间发生变化。
+
+![](./img/13.png)
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">变化的三色旗</view>
+  <view class="flex-wrp">
+    <view class="item" style="background-color: {{color1}};"></view>
+    <view class="item" style="background-color: {{color2}};"></view>
+    <view class="item" style="background-color: {{color3}};"></view>
+  </view>
+  <button type="primary" class="btn" bindtap="createColor">改变颜色</button>
+</view>
+```
+
+```css
+/**index.wxss**/
+.flex-wrp {
+  margin-top: 50rpx;
+  display: flex;
+  flex-direction: row;
+}
+
+.item {
+  width: 300rpx;
+  height: 500rpx;
+}
+
+.btn {
+  margin-top: 20rpx;
+  margin-bottom: 20rpx;
+}
+```
+
+```js
+// index.js
+Page({
+  createColor: function() {
+    var color = [];
+    var letters = '0123456789ABCDEF';
+    for(var i = 0; i < 3; i++) {
+      var c = '#';
+      for(var j = 0; j < 6; j++) {
+        c += letters[Math.floor(Math.random() * 16)];
+      }
+      color.push(c);
+    }
+    console.log(color);
+
+    this.setData({
+      color1: color[0],
+      color2: color[1],
+      color3: color[2]
+    })
+  },
+
+  onLoad: function(e) {
+    this.createColor();
+    setInterval(() => {
+      this.createColor();
+    }, 5000);
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+## 第4章 小程序基本架构
+
+### 4.1 小程序的基本架构
+
+创建一个包含：首页、教学、科研、咨询和关于我们5个标签的小程序，每个标签都有对应的页面、图标和标签文字，点击某个标签将切换到对应的页面，同时该标签的图标和文字颜色都会发生变化，页面的标题也发生相应的变化，而其它标签则变为非选中状态。
+
+
+
+1. 添加图片资源到`images`目录
+2. 在`app.json`中添加配置信息
+
+```json
+{
+  "pages":[
+    "pages/index/index",
+    "pages/jiaoxue/jiaoxue",
+    "pages/keyan/keyan",
+    "pages/zixun/zixun",
+    "pages/guanyu/guanyu"
+  ],
+  "window":{
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "北方工业大学欢迎您",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#00f",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/home-off.png",
+        "selectedIconPath": "/images/home-on.png"
+      },
+      {
+        "pagePath": "pages/jiaoxue/jiaoxue",
+        "text": "教学",
+        "iconPath": "/images/jiaoxue-off.png",
+        "selectedIconPath": "/images/jiaoxue-on.png"
+      },
+      {
+        "pagePath": "pages/keyan/keyan",
+        "text": "科研",
+        "iconPath": "/images/keyan-off.png",
+        "selectedIconPath": "/images/keyan-on.png"
+      },
+      {
+        "pagePath": "pages/zixun/zixun",
+        "text": "咨询",
+        "iconPath": "/images/zixun-off.png",
+        "selectedIconPath": "/images/zixun-on.png"
+      },
+      {
+        "pagePath": "pages/guanyu/guanyu",
+        "text": "关于我们",
+        "iconPath": "/images/guanyu-off.png",
+        "selectedIconPath": "/images/guanyu-on.png"
+      }
+    ]
+  }
+}
+```
+
+3. 
