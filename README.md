@@ -16,7 +16,23 @@
 
 <div STYLE="page-break-after: always;"></div>
 
-### 1.2 第一个微信小程序
+### 1.2 查看小程序的AppID
+
+<div STYLE="page-break-after: always;"></div>
+
+### 1.3 设置小程序信息
+
+<div STYLE="page-break-after: always;"></div>
+
+### 1.4 下载并安装小程序开发者工具
+
+<div STYLE="page-break-after: always;"></div>
+
+### 1.5 创建和打开小程序
+
+<div STYLE="page-break-after: always;"></div>
+
+### 1.6 第一个微信小程序
 
 创建小程序：填写【目录（桌面）】、【APPID】、【开发模式：小程序】、【不使用云服务】、【JavaScript基础模板】
 
@@ -35,11 +51,13 @@
 
 <div STYLE="page-break-after: always;"></div>
 
-### 1.3 字体样式设置
+## 第2章 小程序编写基础
+
+### 2.1 字体样式设置
 
 设计一个小程序，分别利用style和class属性设置字体样式，在`index.wxss`中定义样式类。所有的文字都包含在一个边框内，边框内上方有标题文字，边框和标题样例利用class属性来设置，在`app.wxss`中定义样式类。
 
-![](./img/1.png)
+![](./img/Chapter2/1.png)
 
 1. 添加两段文本
 
@@ -195,11 +213,11 @@ view组件支持使用style和class属性来设置组件的样式。
 
 <div STYLE="page-break-after: always;"></div>
 
-### 1.4 文本样式设置
+### 2.2 文本样式设置
 
 创建一个微信小程序，利用class属性设置文本样式，包括：文本的颜色、字符间距、对齐文本、装饰文本、对文本进行缩进，等等。
 
-![](./img/2.png)
+![](./img/Chapter2/2.png)
 
 1. 添加两段文本
 
@@ -274,11 +292,11 @@ view组件支持使用style和class属性来设置组件的样式。
 
 <div STYLE="page-break-after: always;"></div>
 
-### 1.5 图片与声音
+### 2.3 图片与声音
 
 设计一个小程序，小程序运行后显示一张猫图，点击猫图后会发出猫叫的声音。
 
-![](./img/3.png)
+![](./img/Chapter2/3.png)
 
 1. 添加标题和样式
 
@@ -363,13 +381,11 @@ images组件：支持JPG、PNG、SVG格式，用`src`属性指定图片的路径
 
 <div STYLE="page-break-after: always;"></div>
 
-## 第2章 盒模型与页面布局
-
-### 2.1 盒模型
+### 2.4 盒模型
 
 设计一个小程序，利用盒模型的相关属性实现不同的布局模式。
 
-![](./img/4.png)
+![](./img/Chapter2/4.png)
 
 1. 添加三段文本
 
@@ -423,7 +439,7 @@ images组件：支持JPG、PNG、SVG格式，用`src`属性指定图片的路径
 
 所有WXML元素都可以看作盒子，在WXSS中，box model这一术语是用来设计和布局时使用。盒模型本质上是一个盒子，封装周围的WXML元素，它包括：边距、边框、填充和实际内容。
 
-![](./img/5.png)
+![](./img/Chapter2/5.png)
 
 边框样式：`border-style`属性用来定义边框的样式。
 
@@ -449,11 +465,11 @@ images组件：支持JPG、PNG、SVG格式，用`src`属性指定图片的路径
 
 <div STYLE="page-break-after: always;"></div>
 
-### 2.2 flex页面布局
+### 2.5 flex页面布局
 
 设计一个小程序，利用flex弹性盒模型布局实现三栏布局、左右混合布局和上下混合布局。
 
-![](./img/6.png)
+![](./img/Chapter2/6.png)
 
 ```html
 <!--index.wxml-->
@@ -513,11 +529,11 @@ Flex是Flexible Box的缩写，意为“弹性布局”，用来对盒状模型�
 
 <div STYLE="page-break-after: always;"></div>
 
-### 2.3 导航与布局
+### 2.6 导航与布局
 
 设计一个实现导航功能的小程序。导航页面包含多行导航内容，每行导航内容包括1个图标、1个说明文本和1个图片，图标在最左侧，文本在图标右侧，图片在最右侧。当点击某一行导航内容时都能进入相应的页面。
 
-![](./img/7.png)
+![](./img/Chapter2/7.png)
 
 1. 设计页面
 
@@ -688,11 +704,11 @@ navigator {
 
 <div STYLE="page-break-after: always;"></div>
 
-### 2.4 Float页面布局
+### 2.7 Float页面布局
 
 设计一个小程序，利用float布局实现相应的布局效果。
 
-![](./img/8.png)
+![](./img/Chapter2/8.png)
 
 1. 实现结构
 
@@ -821,13 +837,13 @@ navigator {
 
 <div STYLE="page-break-after: always;"></div>
 
-### 2.5 摄氏温度转华氏温度
+### 2.8 摄氏温度转华氏温度
 
 设计一个根据设置温度C求华氏温度F的微信小程序，计算公式如下：
 $$
 F = (9 / 5) * C + 32
 $$
-![](./img/9.png)
+![](./img/Chapter2/9.png)
 
 1. 实现页面
 
@@ -895,9 +911,7 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-## 第3章 流程控制结构和函数
-
-### 3.1 条件结构和数学函数
+### 2.9 条件结构和数学函数
 
 设计一个利用条件结构和数学函数进行计算的小程序。当输入x值时，根据下面的公式计算出y的值。
 $$
@@ -982,11 +996,11 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 3.2 学生成绩计算器
+### 2.10 学生成绩计算器
 
 设计一个计算学生平均成绩的小程序。当输入学生信息和各门功课成绩并提交后，能够显示学生的信息及平均成绩。
 
-![](./img/10.png)
+![](./img/Chapter2/10.png)
 
 1. 实现页面
 
@@ -1113,7 +1127,7 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 3.3 循环求和计算器
+### 2.11 循环求和计算器
 
 设计一个小程序，利用循环语句求2个数之间所有整数的和。
 
@@ -1191,11 +1205,11 @@ JavaScript全局对象：可用于所有内建的JavaScript对象。
 
 <div STYLE="page-break-after: always;"></div>
 
-### 3.4 随机数求和
+### 2.12 随机数求和
 
 设计一个小程序，运行后产生一列100以内的随机数（保留小数点后2位），并显示这些随机数的和；当点击按钮时，产生一列新的随机数，并显示这些随机数的和。
 
-![](./img/11.png)
+![](./img/Chapter2/11.png)
 
 1. 实现页面
 
@@ -1281,11 +1295,11 @@ JavaScript中的常用对象包括：字符串、数字、数组、日期等。
 
 <div STYLE="page-break-after: always;"></div>
 
-### 3.5 计时器
+### 2.13 计时器
 
 设计一个实现倒计时功能的小程序，小程序执行后，首先显示空白界面，过2秒后才显示计时界面，点击“开始计时”按钮后开始倒计时，点击“停止计时”按钮后停止计时。
 
-![](./img/12.png)
+![](./img/Chapter2/12.png)
 
 ```html
 <!--index.wxml-->
@@ -1386,11 +1400,11 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 3.6 自动随机变化的三色旗
+### 2.14 自动随机变化的三色旗
 
 设计一个小程序，开始时界面上显示一个三色旗和一个按钮，当点击按钮时，三色旗的颜色会发生随机变化，即使不点击按钮，三色旗的颜色也会每隔一定时间发生变化。
 
-![](./img/13.png)
+![](./img/Chapter2/13.png)
 
 ```html
 <!--index.wxml-->
@@ -1457,13 +1471,13 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-## 第4章 小程序基本架构
+## 第3章 小程序架构
 
-### 4.1 小程序的基本架构
+### 3.1 小程序的基本架构
 
 创建一个包含：首页、教学、科研、咨询和关于我们5个标签的小程序，每个标签都有对应的页面、图标和标签文字，点击某个标签将切换到对应的页面，同时该标签的图标和文字颜色都会发生变化，页面的标题也发生相应的变化，而其它标签则变为非选中状态。
 
-![](./img/14.png)
+![](./img/Chapter3/1.png)
 
 1. 添加图片资源到`images`目录
 2. 在`app.json`中添加配置信息
@@ -1601,7 +1615,7 @@ pages用于指定小程序由哪些页面组成，每一项都对应一个页面
 
 <div STYLE="page-break-after: always;"></div>
 
-### 4.2 小程序的执行顺序
+### 3.2 小程序的执行顺序
 
 设计一个带有多标签页面小程序，测试小程序各个页面和函数的执行顺序。
 
@@ -1689,11 +1703,11 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 4.3 数据及事件绑定
+### 3.3 数据及事件绑定
 
 编写一个小程序，实现数据和事件的绑定。数据绑定包括：算术运算绑定、对象绑定和数据绑定，并通过点击按钮事件修改绑定的数据。
 
-![](./img/15.png)
+![](./img/Chapter3/2.png)
 
 ```html
 <!--index.wxml-->
@@ -1755,7 +1769,7 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 4.4 变量和函数的作用域及模块化
+### 3.4 变量和函数的作用域及模块化
 
 设计一个小程序，在`index.js`文件中调用其它文件及本文件中定义的变量和函数，从而实现对全局变量和函数、本文件定义的变量和函数以及其它模块中定义的变量和函数的引用。
 
@@ -1842,11 +1856,11 @@ module.exports = {
 
 <div STYLE="page-break-after: always;"></div>
 
-### 4.5 条件渲染
+### 3.5 条件渲染
 
 编写一个利用`wx:if`实现颜色显示的小程序。当`wx:if`放在`view`中通过`js`文件传递一种颜色时，窗口将显示该颜色名称和颜色。当`wx:if`放在`block`中并传递给变量`length`的值大于10时，将在窗口下方显示红、绿、蓝三种颜色条，否则将不显示。
 
-![](./img/16.png)
+![](./img/Chapter3/3.png)
 
 ```html
 <!--index.wxml-->
@@ -1901,13 +1915,11 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-## 第5章 渲染与引用
-
-### 5.1 成绩等级计算器
+### 3.6 成绩等级计算器
 
 编写一个小程序，输入成绩后显示成绩等级，如果输入成绩大于100或者小于0，则显示“成绩输入有误”的提示。
 
-![](./img/17.png)
+![](./img/Chapter3/4.png)
 
 ```html
 <!--index.wxml-->
@@ -1953,11 +1965,11 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 5.2 列表渲染
+### 3.7 列表渲染
 
 编写一个小程序，利用`wx:for`实现对数组、对象以及字符串的列表渲染，利用`wx:for-index`和`wx:for-item`实现对index和item的重命名，在block中使用`wx:for`实现对多节点结构的渲染。
 
-![](./img/18.png)
+![](./img/Chapter3/5.png)
 
 ```html
 <!--index.wxml-->
@@ -2033,11 +2045,11 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 5.3 九九乘法表
+### 3.8 九九乘法表
 
 编写一个小程序，综合运用`wx:if`条件渲染和`wx:for`列表渲染在视图层打印一个九九乘法表。
 
-![](./img/19.png)
+![](./img/Chapter3/6.png)
 
 ```html
 <!--index.wxml-->
@@ -2078,11 +2090,11 @@ Page({
 
 <div STYLE="page-break-after: always;"></div>
 
-### 5.4 模板的定义及引用
+### 3.9 模板的定义及引用
 
 编写一个小程序，首先定义1个模板，其中包含1个学生的姓名、年龄和性别等信息，然后使用该模板创建3个学生。
 
-![](./img/20.png)
+![](./img/Chapter3/7.png)
 
 1. 在`pages/index`目录下新建`template.wxml`
 
@@ -2139,11 +2151,11 @@ WXML提供模板（template），可以在模板中定义代码片段，然后�
 
 <div STYLE="page-break-after: always;"></div>
 
-### 5.5 利用include引用文件
+### 3.10 利用include引用文件
 
 设计一个小程序，在项目中添加文件`header.wxml`和`footer.wxml`，然后在`index.wxml`文件中利用include引用这2个文件，作为index页面的头部和尾部内容。
 
-![](./img/21.png)
+![](./img/Chapter3/8.png)
 
 1. 创建`header.wxml`和`footer.wxml`
 
@@ -2199,7 +2211,6 @@ WXML提供两种文件引用方式：`import`和`include`。`import`只能引用
 
 <div STYLE="page-break-after: always;"></div>
 
-## 第6章 小程序组件1
+## 第4章 小程序组件
 
-### 6.1 货币兑换
-
+### 4.1 货币兑换
