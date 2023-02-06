@@ -1844,3 +1844,362 @@ module.exports = {
 
 ### 4.5 条件渲染
 
+编写一个利用`wx:if`实现颜色显示的小程序。当`wx:if`放在`view`中通过`js`文件传递一种颜色时，窗口将显示该颜色名称和颜色。当`wx:if`放在`block`中并传递给变量`length`的值大于10时，将在窗口下方显示红、绿、蓝三种颜色条，否则将不显示。
+
+![](./img/16.png)
+
+```html
+<!--index.wxml-->
+<view style="margin: 20px; text-align: center;">
+  利用view中的wx:if进行条件渲染
+  <view wx:if="{{color=='red'}}">红色</view>
+  <view wx:elif="{{color=='green'}}">绿色</view>
+  <view wx:elif="{{color=='blue'}}">蓝色</view>
+  <view wx:else>其它颜色</view>
+  <view class="view-item" style="background-color: {{color}};"></view>
+</view>
+
+<view style="margin: 20px; text-align: center;">
+  利用block中的wx:if进行条件渲染
+  <block wx:if="{{length > 10}}">
+    <view class="view-item bc-red">红色</view>
+    <view class="view-item bc-green">绿色</view>
+    <view class="view-item bc-blue">蓝色</view>
+  </block>
+</view>
+```
+
+```css
+/**index.wxss**/
+.view-item {
+  width: 100%;
+  height: 50px;
+}
+
+.bc-red {
+  background-color: red;
+}
+
+.bc-green {
+  background-color: green;
+}
+
+.bc-blue {
+  background-color: blue;
+}
+```
+
+```js
+// index.js
+Page({
+  data: {
+    color: "blue",
+    length: 15
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+## 第5章 渲染与引用
+
+### 5.1 成绩等级计算器
+
+编写一个小程序，输入成绩后显示成绩等级，如果输入成绩大于100或者小于0，则显示“成绩输入有误”的提示。
+
+![](./img/17.png)
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">成绩等级计算器</view>
+
+  <view>请输入你的考试成绩</view>
+  <input bindblur="scoreInput" placeholder="在此输入成绩"/>
+  <view wx:if="{{score > 100 || score < 0}}">成绩输入有误！</view>
+  <view wx:elif="{{score > 90}}">成绩等级：优秀</view>
+  <view wx:elif="{{score > 80}}">成绩等级：良好</view>
+  <view wx:elif="{{score > 70}}">成绩等级：中等</view>
+  <view wx:elif="{{score > 60}}">成绩等级：及格</view>
+  <view wx:else>成绩等级：不及格</view>
+</view>
+```
+
+```css
+/**index.wxss**/
+input {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 50%;
+  height: 80rpx;
+  border: 1px solid silver;
+}
+```
+
+```js
+// index.js
+Page({
+  data: {
+    score: 0
+  },
+
+  scoreInput: function(e) {
+    this.setData({
+      score: e.detail.value
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.2 列表渲染
+
+编写一个小程序，利用`wx:for`实现对数组、对象以及字符串的列表渲染，利用`wx:for-index`和`wx:for-item`实现对index和item的重命名，在block中使用`wx:for`实现对多节点结构的渲染。
+
+![](./img/18.png)
+
+```html
+<!--index.wxml-->
+<view style="margin: 20px; text-align: center">
+  <view>绑定数组渲染</view>
+  <view wx:for="{{array}}">
+    array[{{index}}]: {{item}}
+  </view>
+  ----------------------------
+  <view>直接数组渲染</view>
+  <view wx:for="{{['春', '夏', '秋', '冬']}}">
+    array[{{index}}]: {{item}}
+  </view>
+  ----------------------------
+  <view>对象渲染</view>
+  <view wx:for="{{object}}">
+    {{index}}: {{item}}
+  </view>
+  ----------------------------
+  <view>字符串渲染及index和item重命名</view>
+  <view wx:for="杜春涛" wx:for-index="i" wx:for-item="j">
+    array[{{i}}]: {{j}}
+  </view>
+  ----------------------------
+  <view>利用block渲染多节点结构块</view>
+  <block wx:for="{{[1,2]}}">
+    <view class="view-item bc-red"></view>
+    <view class="view-item bc-green"></view>
+    <view class="view-item bc-blue"></view>
+  </block>
+</view>
+```
+
+```css
+/**index.wxss**/
+.view-item {
+  width: 100%;
+  height: 5px;
+}
+
+.bc-red {
+  background-color: red;
+}
+
+.bc-green {
+  background-color: green;
+}
+
+.bc-blue {
+  background-color: blue;
+}
+```
+
+```js
+// index.js
+Page({
+  data: {
+    array: ["张三", "李四", "王五", "赵六",],
+    object: {
+      姓名: "张三",
+      学号: "20190001",
+      性别: "男"
+    }
+  }
+})
+```
+
+在组件上使用`wx:for`控制属性绑定一个数组，即可使用数组中各项的数据重复渲染该组件。
+
+数组当前项的下标变量默认为`index`，数组当前项的变量名默认为`item`。使用`wx:for-item`和`wx:for-index`可以指定数组当前元素和元素下标。可以将`wx:for`用在`<block>`标签上，以渲染一个包含多节点的结构块。
+
+如果列表元素位置会动态改变或者有新的元素添加，并且希望列表中的项目保持自己的特征和状态，就需要使用`wx:key`来指定列表中元素的唯一标识符。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.3 九九乘法表
+
+编写一个小程序，综合运用`wx:if`条件渲染和`wx:for`列表渲染在视图层打印一个九九乘法表。
+
+![](./img/19.png)
+
+```html
+<!--index.wxml-->
+<view class="con">
+  <view wx:for="{{[1,2,3,4,5,6,7,8,9]}}" wx:for-item="i">
+    <view class="inline" wx:for="{{[1,2,3,4,5,6,7,8,9]}}" wx:for-item="j">
+      <view wx:if="{{j<=i}}">
+        {{i}}x{{j}}={{i*j}}
+      </view>
+    </view>
+  </view>
+</view>
+```
+
+```css
+/**index.wxss**/
+.con {
+  font-size: 14px;
+  margin: 10px;
+}
+
+.inline {
+  display: inline-block;
+  width: 65px;
+}
+```
+
+```json
+{
+  "navigationBarBackgroundColor": "#000000",
+  "navigationBarTitleText": "九九乘法表",
+  "navigationBarTextStyle": "white",
+  "backgroundTextStyle": "dark"
+}
+```
+
+`inline-block`：既拥有了`block`，元素可以设置`width`和`height`的特性，又保持了`inline`元素不换行的特性。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.4 模板的定义及引用
+
+编写一个小程序，首先定义1个模板，其中包含1个学生的姓名、年龄和性别等信息，然后使用该模板创建3个学生。
+
+![](./img/20.png)
+
+1. 在`pages/index`目录下新建`template.wxml`
+
+```html
+<!-- template.wxml -->
+<template name="student">
+  <view>name: {{name}}</view>
+  <view>age: {{age}}</view>
+  <view>gender: {{gender}}</view>
+</template>
+```
+
+2. 创建2个student
+
+```js
+// index.js
+Page({
+  data: {
+    stu01: {
+      name: "张三",
+      age: 18,
+      gender: "男"
+    },
+    stu02: {
+      name: "李四",
+      age: 19,
+      gender: "女"
+    }
+  }
+})
+```
+
+3. 引用模板
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">模板的定义和引用</view>
+  <import src="template.wxml"/>
+
+  <template is="student" data="{{...stu01}}"/>
+  -------------------------------
+  <template is="student" data="{{...stu02}}"/>
+  -------------------------------
+  <template is="student" data="{{name: '王五', age: 20, gender: '男'}}"/>
+</view>
+```
+
+WXML提供模板（template），可以在模板中定义代码片段，然后在不同的地方引用。
+
+定义模板时，使用`name`属性指定模板的名字；引用模板时，使用`is`属性指定引用的模板，并通过`data`属性传入模板数据。
+
+利用`import`可以引用目标文件中定义的template，import有作用域的概念，即只会import目标文件import的template。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.5 利用include引用文件
+
+设计一个小程序，在项目中添加文件`header.wxml`和`footer.wxml`，然后在`index.wxml`文件中利用include引用这2个文件，作为index页面的头部和尾部内容。
+
+![](./img/21.png)
+
+1. 创建`header.wxml`和`footer.wxml`
+
+```html
+<view class="header">
+  <view>首页</view>
+  <view>新闻</view>
+  <view>介绍</view>
+  <view>机构</view>
+  <view>教学</view>
+  <view>科研</view>
+</view>
+```
+
+```html
+<view class="footer" style="height: 100px">
+  版权所有 @北方工业大学 | 电话：010-88802114
+</view>
+```
+
+2. 引入模板
+
+```html
+<!--index.wxml-->
+<include src="header.wxml"/>
+<view style="margin: 20px; text-align: justify;">
+  北方工业大学（North China University of Technology，NCUT），简称“北方工大”，位于北京市，为一所以工为主、文理兼融，具有学士、硕士、博士培养层次的多科性高等学府，是中华人民共和国教育部与北京市人民政府共建的北京市属重点高校，教育部“卓越工程师教育培养计划”高校、高校京西发展联盟成员单位 [31]  ，入选新工科研究与实践项目、国家级大学生创新创业训练计划、国家大学生文化素质教育基地，具有硕士研究生免试推荐资格和高水平棒垒球运动员招收资格。
+</view>
+<include src="footer.wxml"/>
+```
+
+3. 样式
+
+```css
+/**index.wxss**/
+.header {
+  margin: 20rpx;
+  color: blue;
+  font-size: 22px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.footer {
+  margin: 20rpx;
+  font-size: 15px;
+  text-align: center;
+}
+```
+
+WXML提供两种文件引用方式：`import`和`include`。`import`只能引用文件中的template，而通过`include`可以引用文件中除了`<template>`和`<wxs>`之外的整个代码，相当于将目标文件中的代码拷贝到include位置。
+
+<div STYLE="page-break-after: always;"></div>
+
+## 第6章 小程序组件1
+
+### 6.1 货币兑换
+

@@ -1,0 +1,6 @@
+<!--index.wxml-->
+<include src="header.wxml"/>
+<view style="margin: 20px; text-align: justify;">
+  北方工业大学（North China University of Technology，NCUT），简称“北方工大”，位于北京市，为一所以工为主、文理兼融，具有学士、硕士、博士培养层次的多科性高等学府，是中华人民共和国教育部与北京市人民政府共建的北京市属重点高校，教育部“卓越工程师教育培养计划”高校、高校京西发展联盟成员单位 [31]  ，入选新工科研究与实践项目、国家级大学生创新创业训练计划、国家大学生文化素质教育基地，具有硕士研究生免试推荐资格和高水平棒垒球运动员招收资格。
+</view>
+<include src="footer.wxml"/>
