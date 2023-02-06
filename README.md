@@ -1463,7 +1463,7 @@ Page({
 
 创建一个包含：首页、教学、科研、咨询和关于我们5个标签的小程序，每个标签都有对应的页面、图标和标签文字，点击某个标签将切换到对应的页面，同时该标签的图标和文字颜色都会发生变化，页面的标题也发生相应的变化，而其它标签则变为非选中状态。
 
-
+![](./img/14.png)
 
 1. 添加图片资源到`images`目录
 2. 在`app.json`中添加配置信息
@@ -1521,4 +1521,173 @@ Page({
 }
 ```
 
-3. 
+3. 为每个页面的`.json`文件单独配置
+
+```json
+{
+  "navigationBarBackgroundColor": "#ff0000",
+  "navigationBarTextStyle": "white",
+  "navigationBarTitleText": "教学"
+}
+```
+
+```json
+{
+  "navigationBarTitleText": "科研"
+}
+```
+
+```json
+{
+  "navigationBarTitleText": "咨询"
+}
+```
+
+```json
+{
+  "navigationBarTitleText": "关于我们"
+}
+```
+
+利用`app.json`文件对小程序进行全局配置。
+
+利用`同名.json`文件对本页面窗口表现进行配置。
+
+- `app.json`文件属性
+
+| 属性           | 类型     | 必填 | 描述                        |
+| -------------- | -------- | ---- | --------------------------- |
+| pages          | string[] | 是   | 页面路径列表                |
+| window         | Object   | 否   | 全局的默认窗口表现          |
+| tarBar         | Object   | 否   | 底部tab栏的表现             |
+| networkTimeout | Object   | 否   | 网络超时时间                |
+| debug          | boolean  | 否   | 是否开始debug模式，默认关闭 |
+| permission     | Object   | 否   | 小程序接口权限相关设置      |
+
+- Pages配置
+
+pages用于指定小程序由哪些页面组成，每一项都对应一个页面的路径（含文件名）信息。文件名不需要写文件后缀，框架会自动去寻找对应位置的`.json`、`.js`、`.wxml`、`.wxss`四个文件进行处理。数组的第一项代表小程序的初始页面（首页）。小程序中新增/减少页面，都需要对pages数组进行修改。
+
+- Window配置
+
+| 属性                         | 类型     | 描述                                      |
+| ---------------------------- | -------- | ----------------------------------------- |
+| navigationBarBackgroundColor | HexColor | 导航栏背景颜色，如 #000000                |
+| navigationBarTextStyle       | string   | 导航栏标题颜色，仅支持black/white         |
+| navigationBarTitleText       | string   | 导航栏标题文字内容                        |
+| backgroundColor              | HexColor | 窗口的背景色                              |
+| backgroundTextStyle          | string   | 下拉loading的样式，仅支持dark/light       |
+| pageOrientation              | string   | 屏幕旋转设置，支持auto/portrait/landscape |
+
+- tabBar配置
+
+| 属性            | 类型     | 描述                                  |
+| --------------- | -------- | ------------------------------------- |
+| color           | HexColor | tab上的文字的默认颜色                 |
+| selectedColor   | HexColor | tab上选中文字的颜色                   |
+| backgroundColor | HexColor | tab的背景色                           |
+| borderStyle     | string   | tabBar上边框的颜色，仅支持black/white |
+| list            | Array    | tab列表，最少2个，最多5个tab          |
+| position        | string   | tabBar的位置，仅支持bottom/top        |
+
+- list配置
+
+| 属性             | 类型   | 必填 | 说明                                                         |
+| ---------------- | ------ | ---- | ------------------------------------------------------------ |
+| pagePath         | string | 是   | 页面路径，必须在pages中先定义                                |
+| text             | string | 是   | tab上按钮文字                                                |
+| iconPath         | string | 否   | 图片路径，icon大小限制为40kb，建议尺寸为81px*81px，不支持网络图片 |
+| selectedIconPath | string | 否   | 选中时的图片路径                                             |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.2 小程序的执行顺序
+
+设计一个带有多标签页面小程序，测试小程序各个页面和函数的执行顺序。
+
+```js
+// app.js
+App({
+  onLaunch: function() {
+    console.log("app.js -- onLaunch -- 小程序初始化");
+  },
+
+  onShow: function() {
+    console.log("app.js -- onShow -- 小程序显示");
+  },
+
+  onHide: function() {
+    console.log("app.js -- onHide -- 小程序隐藏");
+  }
+})
+```
+
+```js
+// index.js
+Page({
+  onLoad: function() {
+    console.log("index.js -- onLoad -- 页面加载");
+  },
+
+  onShow: function() {
+    console.log("index.js -- onShow -- 页面显示");
+  },
+
+  onReady: function() {
+    console.log("index.js -- onReady -- 页面初次渲染完成");
+  },
+
+  onHide: function() {
+    console.log("index.js -- onHide -- 页面隐藏");
+  }
+})
+```
+
+```js
+// pages/jiaoxue/jiaoxue.js
+Page({
+  onLoad: function () {
+    console.log("jiaoxue.js -- onLoad -- 页面加载");
+  },
+
+  onShow: function () {
+    console.log("jiaoxue.js -- onShow -- 页面显示");
+  },
+
+  onReady: function () {
+    console.log("jiaoxue.js -- onReady -- 页面初次渲染完成");
+  },
+
+  onHide: function () {
+    console.log("jiaoxue.js -- onHide -- 页面隐藏");
+  }
+})
+```
+
+`App(Object object)`函数：用于注册小程序，该函数必须在`app.js`中调用，必须调用且只能调用一次。
+
+| 属性           | 类型     | 说明                                                       |
+| -------------- | -------- | ---------------------------------------------------------- |
+| onLaunch       | function | 生命周期回调函数，监听小程序初始化                         |
+| onShow         | function | 生命周期回调函数，监听小程序启动或切前台                   |
+| onHide         | function | 生命周期回调函数，监听小程序切后台                         |
+| onError        | function | 错误监听函数                                               |
+| onPageNotFound | function | 页面不存在监听函数                                         |
+| 其它           | any      | 开发者可以添加任意函数或数据变量到Object参数中，用this访问 |
+
+`Page(Object object)`函数：用于注册小程序中的页面，其参数object用于指定页面的初始坏数据、生命周期回调、事件处理函数等。
+
+| 属性     | 类型     | 说明                                                         |
+| -------- | -------- | ------------------------------------------------------------ |
+| data     | Object   | 页面的初始数据                                               |
+| onLoad   | function | 生命周期回调函数，监听页面加载                               |
+| onShow   | function | 生命周期回调函数，监听页面显示                               |
+| onReady  | function | 生命周期回调函数，监听页面初次渲染完成                       |
+| onHide   | function | 生命周期回调函数，监听页面隐藏                               |
+| onUnload | function | 生命周期回调函数，监听页面卸载                               |
+| 其它     | any      | 开发者可以添加任意函数或数据变量到Object参数中，在页面的函数中用this访问 |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.3 数据及事件绑定
+
