@@ -1691,3 +1691,156 @@ Page({
 
 ### 4.3 数据及事件绑定
 
+编写一个小程序，实现数据和事件的绑定。数据绑定包括：算术运算绑定、对象绑定和数据绑定，并通过点击按钮事件修改绑定的数据。
+
+![](./img/15.png)
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">数据绑定示例</view>
+  <view>算术运算绑定：{{a}}+{{b}}+{{c}}={{a+b+c}}</view>
+  <view>对象绑定-学号：{{Student.stuId}}</view>
+  <view>对象绑定-姓名：{{Student.name}}</view>
+  <view>对象绑定-生日：{{Student.birthday}}</view>
+  <view>数组绑定-array[0]：{{array[0]}}</view>
+  <view>数组绑定-array[1]：{{array[1]}}</view>
+  <view>数组绑定-array[2]：{{array[2]}}</view>
+  <button type="primary" bindtap="modify">修改绑定数据</button>
+</view>
+```
+
+```css
+/**index.wxss**/
+view {
+  font-size: 18px;
+  margin: 10px;
+}
+```
+
+```js
+// index.js
+Page({
+  data: {
+    a: 10,
+    b: 20,
+    c: 30,
+    Student: {
+      stuID: "20190213",
+      name: "张三",
+      birthday: "2001-9-1"
+    },
+    array: [
+      "2018", "2019", "2020"
+    ]
+  },
+
+  modify: function() {
+    this.setData({
+      a: 100,
+      b: 200,
+      c: 300,
+      Student: {
+        stuID: "20190213",
+        name: "李四",
+        birthday: "2001-9-1"
+      },
+      array: [
+        "2028", "2029", "2030"
+      ]
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.4 变量和函数的作用域及模块化
+
+设计一个小程序，在`index.js`文件中调用其它文件及本文件中定义的变量和函数，从而实现对全局变量和函数、本文件定义的变量和函数以及其它模块中定义的变量和函数的引用。
+
+1. 实现界面
+
+```html
+<!--index.wxml-->
+<view class="box">
+  <view class="title">变量模块化示例</view>
+  <view>全局变量：{{msg1}}</view>
+  <view>全局函数：{{msg2}}</view>
+  <view>本文件变量：{{msg3}}</view>
+  <view>本文件函数：{{msg4}}</view>
+  <view>其它模块变量：{{msg5}}</view>
+  <view>其它模块函数：{{msg6}}</view>
+</view>
+```
+
+2. 在`pages`目录下创建`utils`目录，在`utils`目录下再创建`util.js`文件。
+3. 实现样式
+
+```css
+/**index.wxss**/
+view {
+  font-size: 18px;
+  margin: 10px;
+}
+```
+
+4. 编写变量和函数
+
+```js
+// index.js
+const app = getApp(); // 获取全局应用实例
+var util = require("../utils/util.js") // 获取utils模块应用实例、
+
+var indexMsg = "我是来自index.js的变量"; // 定义本模块的变量
+
+// 定义本模块的函数
+function indexFunc() {
+  return "我是来自index.js的函数";
+}
+
+Page({
+  data: {
+    msg1: app.globalMsg, // 使用全局变量
+    msg2: app.globalFunc(), // 使用全局函数
+    msg3: indexMsg, // 使用本模块变量
+    msg4: indexFunc(), // 使用本模块函数
+    msg5: util.utilMsg, // 使用utils模块变量
+    msg6: util.utilFunc() // 使用utils模块函数
+  }
+})
+```
+
+```js
+// app.js
+App({
+  globalMsg: "我是来自app.js的全局变量",
+  globalFunc: function() {
+    return "我是来自app.js的全局函数";
+  }
+})
+```
+
+```js
+// util.js
+
+var utilMsg = "我是来自util.js的变量";
+
+function utilFunc() {
+  return "我是来自util.js的函数";
+}
+
+module.exports = {
+  utilMsg: utilMsg,
+  utilFunc: utilFunc
+}
+```
+
+在JavaScript文件中声明的变量和函数只在该文件中有效；不同文件中额可以声明相同名字的变量和函数，不会互相影响。通过全局函数`getApp()`可以获取全局的应用实例，如果需要全局的数据，可以在`App()`中设置。
+
+可以将一些公共的代码抽离成为一个单独的`js`文件作为一个模块。模块通过`module.exports`或者`exports`对外暴露接口，在需要这些模块的文件中，使用`require(path)`将公共代码引入（path为相对路径，暂时不支持绝对路径）。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.5 条件渲染
+
