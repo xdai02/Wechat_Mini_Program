@@ -1,0 +1,47 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/chapter3/chapter3",
+    "pages/chapter4/chapter4",
+    "pages/3_1/3_1",
+    "pages/3_2/3_2",
+    "pages/3_3/3_3",
+    "pages/3_4/3_4",
+    "pages/3_5/3_5",
+    "pages/3_6/3_6",
+    "pages/3_7/3_7",
+    "pages/3_8/3_8",
+    "pages/3_9/3_9",
+    "pages/3_10/3_10"
+  ],
+  "window":{
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "Weixin",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar": {
+    "color": "#000",
+    "selectedColor": "#00f",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/home-off.png",
+        "selectedIconPath": "/images/home-on.png"
+      },
+      {
+        "pagePath": "pages/chapter3/chapter3",
+        "text": "第3章",
+        "iconPath": "/images/news-off.png",
+        "selectedIconPath": "/images/new-on.png"
+      },
+      {
+        "pagePath": "pages/chapter4/chapter4",
+        "text": "第4章",
+        "iconPath": "/images/news-off.png",
+        "selectedIconPath": "/images/new-on.png"
+      }
+    ]
+  }
+}

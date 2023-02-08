@@ -1509,26 +1509,26 @@ Page({
       {
         "pagePath": "pages/jiaoxue/jiaoxue",
         "text": "教学",
-        "iconPath": "/images/jiaoxue-off.png",
-        "selectedIconPath": "/images/jiaoxue-on.png"
+        "iconPath": "/images/fuwu-off.png",
+        "selectedIconPath": "/images/fuwu-on.png"
       },
       {
         "pagePath": "pages/keyan/keyan",
         "text": "科研",
-        "iconPath": "/images/keyan-off.png",
-        "selectedIconPath": "/images/keyan-on.png"
+        "iconPath": "/images/settings-outline.png",
+        "selectedIconPath": "/images/settings-selected.png"
       },
       {
         "pagePath": "pages/zixun/zixun",
         "text": "咨询",
-        "iconPath": "/images/zixun-off.png",
-        "selectedIconPath": "/images/zixun-on.png"
+        "iconPath": "/images/news-off.png",
+        "selectedIconPath": "/images/new-on.png"
       },
       {
         "pagePath": "pages/guanyu/guanyu",
         "text": "关于我们",
-        "iconPath": "/images/guanyu-off.png",
-        "selectedIconPath": "/images/guanyu-on.png"
+        "iconPath": "/images/API-off.png",
+        "selectedIconPath": "/images/API-on.png"
       }
     ]
   }
