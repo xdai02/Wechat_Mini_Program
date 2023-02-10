@@ -1,0 +1,13 @@
+<!--pages/4_2/4_2.wxml-->
+<view class="box">
+  <view class="title">三角形面积计算器</view>
+
+  <form bindsubmit="formSubmit">
+    <input type="digit" placeholder="第1条边长" name="a" value="{{a}}"/>
+    <input type="digit" placeholder="第2条边长" name="b" value="{{b}}"/>
+    <input type="digit" placeholder="第3条边长" name="c" value="{{c}}"/>
+    <button form-type="submit">计算</button>
+  </form>
+
+  <view>三角形的面积为：{{result}}</view>
+</view>

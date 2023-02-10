@@ -1,0 +1,29 @@
+/* pages/4_1/4_1.wxss */
+input {
+  border-bottom: 2px solid blue;
+  margin: 10px 0;
+  font-size: 25px;
+  color: red;
+  padding: 15px;
+}
+
+button {
+  width: 40%;
+  margin: 10px;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  /* 沿主轴方向居中对齐 */
+}
+
+.textLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* 沿交叉轴方向向左对齐 */
+  font-size: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  line-height: 40px;
+}

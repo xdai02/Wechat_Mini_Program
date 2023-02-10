@@ -2214,3 +2214,202 @@ WXML提供两种文件引用方式：`import`和`include`。`import`只能引用
 ## 第4章 小程序组件
 
 ### 4.1 货币兑换
+
+设计一个小程序，实现人民币与其它货币之间的兑换。当输入人民币的数值后，能够显示其它货币对应的金额。
+
+![](./img/Chapter4/1.png)
+
+```html
+<!--pages/4_1/4_1.wxml-->
+<view class="box">
+  <view class="title">货币兑换</view>
+
+  <form bindsubmit="calc" bindreset="reset">
+    <input name="cels" placeholder="请输入人民币金额" type="number" auto-focus="true"/>
+    
+    <view class="btnLayout">
+      <button type="primary" form-type="submit">计算</button>
+      <button type="primary" form-type="reset">清除</button>
+    </view>
+
+    <view class="textLayout">
+      <text>兑换美元为：{{M}}</text>
+      <text>兑换英镑为：{{Y}}</text>
+      <text>兑换港币为：{{G}}</text>
+      <text>兑换欧元为：{{O}}</text>
+      <text>兑换韩元为：{{H}}</text>
+      <text>兑换日元为：{{R}}</text>
+    </view>
+  </form>
+</view>
+```
+
+```css
+/* pages/4_1/4_1.wxss */
+input {
+  border-bottom: 2px solid blue;
+  margin: 10px 0;
+  font-size: 25px;
+  color: red;
+  padding: 15px;
+}
+
+button {
+  width: 40%;
+  margin: 10px;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  /* 沿主轴方向居中对齐 */
+}
+
+.textLayout {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;  /* 沿交叉轴方向向左对齐 */
+  font-size: 20px;
+  margin-top: 20px;
+  margin-left: 20px;
+  line-height: 40px;
+}
+```
+
+```js
+// pages/4_1/4_1.js
+
+var C; // 人民币
+
+Page({
+  calc: function (e) {
+    C = parseInt(e.detail.value.cels);
+    this.setData({
+      M: (C / 6.8801).toFixed(4),
+      Y: (C / 8.7873).toFixed(4),
+      G: (C / 0.8805).toFixed(4),
+      O: (C / 7.8234).toFixed(4),
+      H: (C / 0.0061).toFixed(4),
+      R: (C / 0.0610).toFixed(4),
+    })
+  },
+
+  reset: function() {
+    this.setData({
+      M: '',
+      Y: '',
+      G: '',
+      O: '',
+      H: '',
+      R: '',
+    })
+  }
+})
+```
+
+`form`组件：用于提交内部组件`switch`、`input`、`checkbox`、`slider`、`radio`、`picker`的用户输入。
+
+获取`form`内各组件`value`值的方法：当点击`form`表单中`form-type`为`submit`的`button`组件时，会将表单内各组件的`value`值提交。（注意：需要设置表单内各组件的`name`属性）。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.2 三角形面积计算器
+
+设计一个根据三角形的三条边长求三角形面积的微信小程序。计算公式如下：
+$$
+area = \sqrt{s * (s-a) * (s-b) * (s-c)}
+$$
+![](./img/Chapter4/2.png)
+
+```html
+<!--pages/4_2/4_2.wxml-->
+<view class="box">
+  <view class="title">三角形面积计算器</view>
+
+  <form bindsubmit="formSubmit">
+    <input type="digit" placeholder="第1条边长" name="a" value="{{a}}"/>
+    <input type="digit" placeholder="第2条边长" name="b" value="{{b}}"/>
+    <input type="digit" placeholder="第3条边长" name="c" value="{{c}}"/>
+    <button form-type="submit">计算</button>
+  </form>
+
+  <view>三角形的面积为：{{result}}</view>
+</view>
+```
+
+```css
+/* pages/4_2/4_2.wxss */
+input, button, text {
+  font-size: 20px;
+  margin: 20px 0;
+}
+
+input {
+  border-bottom: 1px solid blue;
+}
+```
+
+```js
+// pages/4_2/4_2.js
+Page({
+  formSubmit: function (e) {
+    var a = parseFloat(e.detail.value.a);
+    var b = parseFloat(e.detail.value.b);
+    var c = parseFloat(e.detail.value.c);
+
+    var area;
+    if (a + b <= c || a + c <= b || b + c <= a) {
+      wx.showToast({
+        title: '三角形的两边之和小于第三边！', // 对话框标题
+        icon: "none", // 对话框图标
+        duration: 2000, // 对话框显示时长
+      });
+      this.clear(); // 调用函数清空input组件中的数据
+      return;
+    } else {
+      var s = (a + b + c) / 2;
+      area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+    }
+
+    this.setData({
+      result: area
+    });
+  },
+
+  clear: function() {
+    this.setData({
+      a: "",
+      b: "",
+      c: "",
+      result: ""
+    })
+  }
+})
+```
+
+消息提示框API函数：
+
+`wx.showToast(Object object)`
+
+| 属性     | 说明                                        |
+| -------- | ------------------------------------------- |
+| title    | 提示的内容                                  |
+| icon     | 图标                                        |
+| image    | 自定义图标的本地路径，image的优先级高于icon |
+| duration | 延迟时间                                    |
+| mask     | 是否显示透明蒙层，防止触摸穿透              |
+| success  | 接口调用成功的回调函数                      |
+| fail     | 接口调用失败的回调函数                      |
+| complete | 接口调用结束的回调函数                      |
+
+`wx.showModal(Object object)`
+
+`wx.showLoading(Object object)`
+
+`wx.hideToast(Object object)`
+
+`wx.hideLoading(Object object)`
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.3 设置字体样式和大小

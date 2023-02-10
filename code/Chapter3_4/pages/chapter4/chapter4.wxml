@@ -1,2 +1,29 @@
-<!--pages/chapter4/chapter4.wxml-->
-<text>pages/chapter4/chapter4.wxml</text>
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">第4章</view>
+
+  <navigator url="/pages/4_1/4_1">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_1</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_2/4_2">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_2</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_3/4_3">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_3</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+</view>
