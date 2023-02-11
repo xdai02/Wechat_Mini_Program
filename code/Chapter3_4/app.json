@@ -18,10 +18,10 @@
     "pages/4_3/4_3"
   ],
   "window":{
-    "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
-    "navigationBarTextStyle":"black"
+    "backgroundTextStyle":"dark",
+    "navigationBarBackgroundColor": "#00f",
+    "navigationBarTitleText": "天天开心",
+    "navigationBarTextStyle":"white"
   },
   "tabBar": {
     "color": "#000",
@@ -35,15 +35,15 @@
       },
       {
         "pagePath": "pages/chapter3/chapter3",
-        "text": "第3章",
-        "iconPath": "/images/news-off.png",
-        "selectedIconPath": "/images/new-on.png"
+        "text": "3章",
+        "iconPath": "/images/kj-off.png",
+        "selectedIconPath": "/images/kj-on.png"
       },
       {
         "pagePath": "pages/chapter4/chapter4",
-        "text": "第4章",
-        "iconPath": "/images/news-off.png",
-        "selectedIconPath": "/images/new-on.png"
+        "text": "4章",
+        "iconPath": "/images/kj-off.png",
+        "selectedIconPath": "/images/kj-on.png"
       }
     ]
   }

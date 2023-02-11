@@ -2,7 +2,7 @@
 <view style="margin: 20px; text-align: center">
   <view>绑定数组渲染</view>
   <view wx:for="{{array}}">
-    array[{{index}}]: {{item}}
+    array[{{index}}] = {{item}}
   </view>
   ----------------------------
   <view>直接数组渲染</view>
@@ -17,7 +17,7 @@
   ----------------------------
   <view>字符串渲染及index和item重命名</view>
   <view wx:for="杜春涛" wx:for-index="i" wx:for-item="j">
-    array[{{i}}]: {{j}}
+    {{i}} {{j}}
   </view>
   ----------------------------
   <view>利用block渲染多节点结构块</view>

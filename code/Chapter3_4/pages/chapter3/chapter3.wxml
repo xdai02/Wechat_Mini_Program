@@ -6,14 +6,6 @@
   <navigator>
     <view class="waikuang">
       <icon type="success" class="myleft"></icon>
-      <view class="mycenter">案例3_1</view>
-      <image src="/images/right-arrow.png" class="myright"></image>
-    </view>
-  </navigator>
-
-  <navigator>
-    <view class="waikuang">
-      <icon type="success" class="myleft"></icon>
       <view class="mycenter">案例3_2</view>
       <image src="/images/right-arrow.png" class="myright"></image>
     </view>

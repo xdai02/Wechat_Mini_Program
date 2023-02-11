@@ -1,6 +1,7 @@
 // index.js
 const app = getApp(); // 获取全局应用实例
-var util = require("../utils/util.js") // 获取utils模块应用实例、
+
+var util = require("../utils/util.js"); // 获取utils模块应用实例
 
 var indexMsg = "我是来自index.js的变量"; // 定义本模块的变量
 
