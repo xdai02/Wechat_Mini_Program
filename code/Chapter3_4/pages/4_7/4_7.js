@@ -1,66 +1,61 @@
 // pages/4_7/4_7.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
+    src: "../../images/testImage.png",
 
-  },
-
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+    imgArray: [
+      {
+        mode: "aspectFit",
+        text: "aspectFit: 保持纵横比缩放图片，使图片完整的显示出来"
+      },
+      {
+        mode: "widthFit",
+        text: "widthFit: 保持纵横比缩放图片，宽度完全显示出来"
+      },
+      {
+        mode: "scaleToFill",
+        text: "scaleToFill: 不保持纵横比缩放图片，使图片拉伸适应"
+      },
+      {
+        mode: "aspectFill",
+        text: "aspectFill: 不保持纵横比缩放图片，只保证图片的短边能完全显示出来"
+      },
+      {
+        mode: "top",
+        text: "top: 不缩放图片，只显示图片的顶部区域"
+      },
+      {
+        mode: "bottom",
+        text: "bottom: 不缩放图片，只显示图片的底部区域"
+      },
+      {
+        mode: "center",
+        text: "center: 不缩放图片，只显示图片的中间区域"
+      },
+      {
+        mode: "left",
+        text: "left: 不缩放图片，只显示图片的左边区域"
+      },
+      {
+        mode: "right",
+        text: "right: 不缩放图片，只显示图片的右边区域"
+      },
+      {
+        mode: "top left",
+        text: "top left: 不缩放图片，只显示图片的左上边区域"
+      },
+      {
+        mode: "top right",
+        text: "top right: 不缩放图片，只显示图片的右上边区域"
+      },
+      {
+        mode: "bottom left",
+        text: "bottom left: 不缩放图片，只显示图片的左下边区域"
+      },
+      {
+        mode: "bottom right",
+        text: "bottom right: 不缩放图片，只显示图片的右下边区域"
+      }
+    ]
   }
 })

@@ -22,7 +22,8 @@
     "pages/4_7/4_7",
     "pages/4_8/4_8",
     "pages/4_9/4_9",
-    "pages/4_10/4_10"
+    "pages/4_10/4_10",
+    "pages/detail/detail"
   ],
   "window":{
     "backgroundTextStyle":"dark",

@@ -1,66 +1,51 @@
 // pages/4_10/4_10.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    getEmail: "",
+    getPwd: "",
+    getPwdConfirm: ""
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  formSubmit: function(e) {
+    if(e.detail.value.email.length == 0 || e.detail.value.password.length == 0) {
+      this.setData({
+        showMsg01: "邮箱或密码不得为空！"
+      })
+    } else if(e.detail.value.password != e.detail.value.confirm) {
+      this.setData({
+        showMsg02: "两次输入密码不一致！",
+        getPwd: "",
+        getPwdConfirm: ""
+      })
+    } else {
+      // 页面跳转
+      wx.navigateTo({
+        url: '../detail/detail',
+      })
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  inputemail: function(e) {
+    var email = e.detail.value;
+    var checkedNum = this.checkEmail(email);
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
+  checkEmail: function(email) {
+    // 正则表达式
+    let str = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+    if(str.test(email)) {
+      return true;
+    } else {
+      wx.showToast({
+        title: '邮箱格式错误',
+        icon: "loading"
+      })
+      
+      this.setData({
+        getEmail: ""
+      })
 
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+      return false;
+    }
   }
 })

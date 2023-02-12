@@ -1,2 +1,12 @@
 <!--pages/4_7/4_7.wxml-->
-<text>pages/4_7/4_7.wxml</text>
+<view class="box">
+  <view class="title">图片展示</view>
+
+  <view wx:for="{{imgArray}}">
+    <view>{{item.text}}</view>
+    <view class="imgLayout">
+      <image src="{{src}}" mode="{{item.mode}}"/>
+    </view>
+    -----------------------
+  </view>
+</view>

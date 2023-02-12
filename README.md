@@ -2547,7 +2547,7 @@ Page({
   <text>蓝色滑动条</text>
   <slider data-color="b" value="{{b}}" max="255" block-color="blue" show-value="true" bindchanging="colorChanging"/>
 
-  <text>绿色滑动条</text>
+  <text>透明滑动条</text>
   <slider data-color="a" value="{{a}}" max="1" step="0.01" block-color="purple" show-value="true" bindchanging="colorChanging"/>
 
   <view class="colorArea" style="background-color: rgba({{r}}, {{g}}, {{b}}, {{a}});"></view>
@@ -2930,3 +2930,564 @@ Page({
 
 ### 4.7 图片显示模式
 
+设计一个小程序，演示不同模式下图片的显示效果。
+
+![](./img/Chapter4/7.png)
+
+```html
+<!--pages/4_7/4_7.wxml-->
+<view class="box">
+  <view class="title">图片展示</view>
+
+  <view wx:for="{{imgArray}}">
+    <view>{{item.text}}</view>
+    <view class="imgLayout">
+      <image src="{{src}}" mode="{{item.mode}}"/>
+    </view>
+    -----------------------
+  </view>
+</view>
+```
+
+```css
+/* pages/4_7/4_7.wxss */
+.imgLayout {
+  text-align: center;
+  margin: 5px 0;
+}
+
+image {
+  width: 200px;
+  height: 200px;
+  background-color: #eee;
+}
+```
+
+```js
+// pages/4_7/4_7.js
+Page({
+  data: {
+    src: "../../images/testImage.png",
+
+    imgArray: [
+      {
+        mode: "aspectFit",
+        text: "aspectFit: 保持纵横比缩放图片，使图片完整的显示出来"
+      },
+      {
+        mode: "widthFit",
+        text: "widthFit: 保持纵横比缩放图片，宽度完全显示出来"
+      },
+      {
+        mode: "scaleToFill",
+        text: "scaleToFill: 不保持纵横比缩放图片，使图片拉伸适应"
+      },
+      {
+        mode: "aspectFill",
+        text: "aspectFill: 不保持纵横比缩放图片，只保证图片的短边能完全显示出来"
+      },
+      {
+        mode: "top",
+        text: "top: 不缩放图片，只显示图片的顶部区域"
+      },
+      {
+        mode: "bottom",
+        text: "bottom: 不缩放图片，只显示图片的底部区域"
+      },
+      {
+        mode: "center",
+        text: "center: 不缩放图片，只显示图片的中间区域"
+      },
+      {
+        mode: "left",
+        text: "left: 不缩放图片，只显示图片的左边区域"
+      },
+      {
+        mode: "right",
+        text: "right: 不缩放图片，只显示图片的右边区域"
+      },
+      {
+        mode: "top left",
+        text: "top left: 不缩放图片，只显示图片的左上边区域"
+      },
+      {
+        mode: "top right",
+        text: "top right: 不缩放图片，只显示图片的右上边区域"
+      },
+      {
+        mode: "bottom left",
+        text: "bottom left: 不缩放图片，只显示图片的左下边区域"
+      },
+      {
+        mode: "bottom right",
+        text: "bottom right: 不缩放图片，只显示图片的右下边区域"
+      }
+    ]
+  }
+})
+```
+
+`image`组件：用于显示图片，支持JPG、PNG、SVG格式。
+
+| 属性 | 默认值      | 说明           |
+| ---- | ----------- | -------------- |
+| src  |             | 图片的资源地址 |
+| mode | scaleToFill | 图片的显示模式 |
+
+`image`组件的显示模式提供了4种缩放模式和9种裁剪模式，利用`mode`属性进行设置。
+
+| 值           | 说明                                                         |
+| ------------ | ------------------------------------------------------------ |
+| scaleToFill  | 不保持纵横比缩放图片，使图片完全拉伸至填满image元素          |
+| aspectFit    | 保持纵横比缩放图片，使图片的长边能完全显示出来。可以完整地将图片显示出来 |
+| aspectFill   | 不保持纵横比缩放图片，只保证图片的短边能完全显示出来。图片通常只在水平或垂直方向是完整的，另一个方向将会发生截取 |
+| widthFix     | 宽度不变，高度自动变化，保持原图宽高比不变                   |
+| top          | 不缩放图片，只显示图片的顶部区域                             |
+| bottom       | 不缩放图片，只显示图片的底部区域                             |
+| center       | 不缩放图片，只显示图片的中间区域                             |
+| left         | 不缩放图片，只显示图片的左边区域                             |
+| right        | 不缩放图片，只显示图片的右边区域                             |
+| top left     | 不缩放图片，只显示图片的左上边区域                           |
+| top right    | 不缩放图片，只显示图片的右上边区域                           |
+| bottom left  | 不缩放图片，只显示图片的左下边区域                           |
+| bottom right | 不缩放图片，只显示图片的右下边区域                           |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.8 音频演示
+
+设计一个小程序，演示音频的播放、暂停播放、设置当前播放时间和从头开始播放等效果。
+
+![](./img/Chapter4/8.png)
+
+```html
+<!--pages/4_8/4_8.wxml-->
+<view class="box">
+  <view class="title">音频展示</view>
+
+  <audio id="myAudio" poster="{{poster}}" name="{{name}}" author="{{author}}" src="{{src}}" controls loop></audio>
+
+  <view class="btnLayout">
+    <button bindtap="audioPlay">播放</button>
+    <button bindtap="audioPause">暂停</button>
+    <button bindtap="audio14">设置当前播放时间为14秒</button>
+    <button bindtap="audioStart">回到开头</button>
+  </view>
+</view>
+```
+
+```css
+/* pages/4_8/4_8.wxss */
+button {
+  margin-top: 50rpx;
+  width: 500rpx;
+}
+
+.btnLayout {
+  margin-top: 50rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;  /* 沿交叉轴方向居中对齐 */
+}
+```
+
+```js
+// pages/4_8/4_8.js
+Page({
+  data: {
+    poster: "http://y.gtimg.cn/music/photo_new/T002R300x300M000003rsKF44GyaSk.jpg?max_age=2592000",
+    name: "歌曲名",
+    author: "歌手名",
+    src: "http://ws.stream.qqmusic.qq.com/M500001VfvsJ21xFqb.mp3?guid=ffffffff82def4af4b12b3cd9337d5e7&uin=346897220&vkey=6292F51E1E384E06DCBDC9AB7C49FD713D632D313AC4858BACB8DDD29067D3C601481D36E62053BF8DFEAF74C0A5CCFADD6471160CAF3E6A&fromtag=46"
+    // src: "/audios/music.mp3",
+  },
+
+  
+
+  onLoad: function(options) {
+    this.audioCtx = wx.createAudioContext("myAudio");
+  },
+
+  audioPlay: function() {
+    this.audioCtx.play();
+  },
+
+  audioPause: function() {
+    this.audioCtx.pause();
+  },
+
+  audio14: function() {
+    this.audioCtx.seek(14);
+  },
+
+  audioStart: function() {
+    this.audioCtx.seek(0);
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.9 视频演示
+
+设计一个小程序，实现播放视频和发送随机变化颜色的弹幕等功能。
+
+![](./img/Chapter4/9.png)
+
+```html
+<!--pages/4_9/4_9.wxml-->
+<view class="box">
+  <view class="title">视频展示</view>
+
+  <view class="videoLayout">
+    <video id="myVideo" src="http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400" danmu-list="{{danmuList}}" enable-danmu danmu-btn controls />
+  </view>
+
+  <view class="view">弹幕内容</view>
+  <input bindblur="inputBlur" type="text" placeholder="在此处输入弹幕内容" />
+  <button type="primary" bindtap="sendDanmu">发送弹幕</button>
+</view>
+```
+
+```css
+/* pages/4_9/4_9.wxss */
+page {
+  background-color: lightgray;
+}
+
+.videoLayout {
+  margin: 50rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+input {
+  height: 80rpx;
+  background-color: white;
+  border: 1px solid blanchedalmond;
+  margin: 10px 0;
+}
+```
+
+```js
+// pages/4_9/4_9.js
+
+function getRandomColor() {
+  let rgb = [];
+  for(let i = 0; i < 3; i++) {
+    // 产生0-255之间的16进制随机数
+    let color = Math.floor(Math.random() * 256).toString(16);
+    color = color.length == 1 ? '0' + color : color;
+    rgb.push(color);
+  }
+  return "#" + rgb.join('')
+}
+
+Page({
+  data: {
+    danmuList: [
+      {
+        text: "第 1s 出现的弹幕",
+        color: "#ff0000",
+        time: 1
+      },
+      {
+        text: "第 3s 出现的弹幕",
+        color: "#ff00ff",
+        time: 3
+      }
+    ]
+  },
+
+  onLoad: function(options) {
+    this.videoCtx = wx.createVideoContext("myVideo");
+  },
+
+  inputBlur: function(e) {
+    this.inputValue = e.detail.value;
+  },
+
+  sendDanmu: function() {
+    this.videoCtx.sendDanmu({
+      text: this.inputValue,
+      color: getRandomColor()
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.10 考试场次选择
+
+编写一个选择考试场次的小程序，考生首先利用邮箱和密码登录，输入自己的姓名和学号后选择考试场次。
+
+考生登录时需要进行验证，如果某项输入为空，或者邮箱填写不正确，或者输入的密码和确认密码不一致，将给出错误提示并要求重新填写。
+
+![](./img/Chapter4/10.png)
+
+![](./img/Chapter4/11.png)
+
+```html
+<!--pages/4_10/4_10.wxml-->
+<image src="/images/shouye.png" mode="scaleToFill"/>
+
+<view class="box">
+  <view class="title">考试场次选择</view>
+  <view class="hr"></view>
+
+  <form bindsubmit="formSubmit">
+    <view class="lineLayout">
+      <text>电子邮箱：</text>
+      <input type="text" bindchange="inputemail" name="email" value="{{getEmail}}"/>
+    </view>
+
+    <view class="lineLayout">
+      <text>输入密码：</text>
+      <input type="password" name="password" value="{{getPwd}}"/>
+    </view>
+
+    <view class="lineLayout">
+      <text>确认密码：</text>
+      <input type="password" name="confirm" value="{{getPwdConfirm}}"/>
+    </view>
+
+    <button type="primary" form-type="submit">登录</button>
+
+    <view>
+      <view class="txt">{{showMsg01}}</view>
+      <view class="txt">{{showMsg02}}</view>
+    </view>
+  </form>
+</view>
+```
+
+```css
+/* pages/4_10/4_10.wxss */
+
+page {
+  height: 100%;
+  background: gainsboro;
+}
+
+image {
+  width: 100%;
+  height: 110px;
+}
+
+.hr {
+  height: 2px;
+  background-color: yellowgreen;
+  margin: 10px 0;
+}
+
+.lineLayout {
+  display: inline-block;
+  margin: 10px;
+}
+
+text {
+  float: left;
+}
+
+input {
+  width: 180px;
+  height: 30px;
+  border-bottom: 2px solid blue;
+  float: left;
+}
+
+input:hover {
+  border-bottom: 2px solid chocolate;
+}
+
+button {
+  width: 150px;
+  margin: 20px auto;
+}
+
+.txt {
+  color: red;
+  background: yellow;
+}
+```
+
+```js
+// pages/4_10/4_10.js
+Page({
+  data: {
+    getEmail: "",
+    getPwd: "",
+    getPwdConfirm: ""
+  },
+
+  formSubmit: function(e) {
+    if(e.detail.value.email.length == 0 || e.detail.value.password.length == 0) {
+      this.setData({
+        showMsg01: "邮箱或密码不得为空！"
+      })
+    } else if(e.detail.value.password != e.detail.value.confirm) {
+      this.setData({
+        showMsg02: "两次输入密码不一致！",
+        getPwd: "",
+        getPwdConfirm: ""
+      })
+    } else {
+      // 页面跳转
+      wx.navigateTo({
+        url: '../detail/detail',
+      })
+    }
+  },
+
+  inputemail: function(e) {
+    var email = e.detail.value;
+    var checkedNum = this.checkEmail(email);
+  },
+
+  checkEmail: function(email) {
+    // 正则表达式
+    let str = /^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*\.[a-zA-Z0-9]{2,6}$/;
+    if(str.test(email)) {
+      return true;
+    } else {
+      wx.showToast({
+        title: '邮箱格式错误',
+        icon: "loading"
+      })
+      
+      this.setData({
+        getEmail: ""
+      })
+
+      return false;
+    }
+  }
+})
+```
+
+```html
+<!--pages/detail/detail.wxml-->
+<view class="box">
+  <view class="title">考试时段选择</view>
+
+  <form bindsubmit="formSubmit">
+    <view class="flex">
+      <text>姓名：</text>
+      <input type="text" auto-focus name="name" value="{{name}}"/>
+    </view>
+
+    <view class="flex">
+      <text>学号：</text>
+      <input type="number" name="id" value="{{id}}"/>
+    </view>
+
+    <picker bindchange="chooseTime" value="{{index}}" range="{{array}}" name="time">
+      请选择考试时段：{{array[index]}}
+    </picker>
+
+    <view class="btnLayout">
+      <button type="primary" form-type="submit">确定</button>
+      <button type="primary">取消</button>
+    </view>
+  </form>
+</view>
+```
+
+```css
+/* pages/detail/detail.wxss */
+
+page {
+  height: 100%;
+  background: gainsboro;
+}
+
+.flex {
+  display: flex;
+  margin: 5px 0;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+input {
+  width: 150px;
+  height: 30px;
+  border: 2px solid gray;
+  margin: 5px;
+}
+
+input:hover {
+  border: 2px solid chocolate;
+}
+
+picker {
+  margin: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: 50px 0;
+  width: 100%;
+}
+
+button {
+  width: 80px;
+}
+```
+
+```js
+// pages/detail/detail.js
+Page({
+  data: {
+    array: [
+      "第一场15:00",
+      "第二场16:20",
+      "第三场17:40"
+    ]
+  },
+
+  formSubmit: function(e) {
+    var name = e.detail.value.name;
+    var id = e.detail.value.id;
+    var time = e.detail.value.time;
+
+    wx.showModal({
+      title: '确认信息',
+      content: e.detail.value.name + "同学，你的学号是：" + id + "，你选择的场次是：" + this.data.array[time] + "，请确认信息！",
+      // 回调函数
+      success: function(res) {
+        if(res.confirm) {
+          wx.showModal({
+            title: '信息确认',
+            content: '你的考场信息已经确认！'
+          })
+
+          wx.navigateTo({
+            url: '../index/index',
+          })
+        } else {
+          console.log("用户点击取消")
+        }
+      }
+    })
+  },
+
+  chooseTime: function(e) {
+    var index = e.detail.value;
+    this.setData({
+      index: index
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+## 第5章 小程序API
+
+### 5.1 变脸游戏
