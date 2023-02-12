@@ -2413,3 +2413,520 @@ Page({
 <div STYLE="page-break-after: always;"></div>
 
 ### 4.3 设置字体样式和大小
+
+编写一个小程序，利用`radio`组件改变字体类型，利用`checkbox`组件改变字体加粗、倾斜和下划线等样式。
+
+![](./img/Chapter4/3.png)
+
+```html
+<!--pages/4_3/4_3.wxml-->
+<view class="box">
+  <view class="title">修改字体样式和大小</view>
+
+  <text style="font-weight: {{myBold}}; font-style: {{myItalic}}; text-decoration: {{myUnderline}}; font-size: {{myFontSize}};">北方工业大学</text>
+
+  <checkbox-group bindchange="checkboxChange">
+    <checkbox value="isBold">加粗</checkbox>
+    <checkbox value="myItalic">倾斜</checkbox>
+    <checkbox value="myUnderline">下划线</checkbox>
+  </checkbox-group>
+
+  <radio-group bindchange="radioChange">
+    <radio value="15px">15px</radio>
+    <radio value="25px" checked="true">25px</radio>
+    <radio value="35px">35px</radio>
+  </radio-group>
+</view>
+```
+
+```css
+/* pages/4_3/4_3.wxss */
+radio, checkbox {
+  margin-top: 20rpx;
+  margin-bottom: 10rpx;
+  margin-right: 10rpx;
+}
+```
+
+```js
+// pages/4_3/4_3.js
+Page({
+  data: {
+    myFontSize: "25px"
+  },
+
+  checkboxChange: function(e) {
+    var text = [];
+    var mybold = "";
+    var myitalic = "";
+    var myunderline = ""
+
+    text = e.detail.value;
+
+    for(var i = 0; i < text.length; i++) {
+      if(text[i] == "isBold") {
+        mybold = "bold";
+      }
+      if(text[i] == "isItalic") {
+        myitalic = "italic";
+      }
+      if(text[i] == "isUnderline") {
+        myunderline = "underline";
+      }
+    }
+
+    this.setData({
+      myBold: mybold,
+      myItalic: myitalic,
+      myUnderline: myunderline
+    })
+
+    console.log(text);
+  },
+
+  radioChange: function(e) {
+    this.setData({
+      myFontSize: e.detail.value
+    })
+    console.log(e.detail.value)
+  }
+})
+```
+
+`radio`组件
+
+| 属性     | 说明                                                         |
+| -------- | ------------------------------------------------------------ |
+| value    | radio标识，当radio选中时，radio-group的change时间会携带radio的value |
+| checked  | 当前是否选中                                                 |
+| disabled | 是否禁用                                                     |
+| color    | radio的颜色                                                  |
+
+`radio-group`组件
+
+| 属性       | 说明                                        |
+| ---------- | ------------------------------------------- |
+| bindchange | radio-group中选中项发生改变时触发change事件 |
+
+`checkbox`为多选项目组件，它必须和`checkbox-group`多项选择器组件一起使用。`checkbox-group`内部由多个`checkbox`组成。
+
+`checkbox`组件
+
+| 属性     | 说明                             |
+| -------- | -------------------------------- |
+| value    | checkbox标识                     |
+| disabled | 是否禁用                         |
+| checked  | 当前是否选中，可用来设置默认选中 |
+| color    | checkbox的颜色                   |
+
+`checkbox-group`组件
+
+| 属性       | 说明                                           |
+| ---------- | ---------------------------------------------- |
+| bindchange | checkbox-group中选中项发生改变时触发change事件 |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.4 滑动条和颜色
+
+编写一个小程序，利用`slider`滑动条组件控制颜色的变化。
+
+![](./img/Chapter4/4.png)
+
+```html
+<!--pages/4_4/4_4.wxml-->
+<view class="box">
+  <view class="title">滑动条和颜色</view>
+
+  <text>红色滑动条</text>
+  <slider data-color="r" value="{{r}}" max="255" block-color="red" show-value="true" bindchanging="colorChanging"/>
+
+  <text>绿色滑动条</text>
+  <slider data-color="g" value="{{g}}" max="255" block-color="green" show-value="true" bindchanging="colorChanging"/>
+
+  <text>蓝色滑动条</text>
+  <slider data-color="b" value="{{b}}" max="255" block-color="blue" show-value="true" bindchanging="colorChanging"/>
+
+  <text>绿色滑动条</text>
+  <slider data-color="a" value="{{a}}" max="1" step="0.01" block-color="purple" show-value="true" bindchanging="colorChanging"/>
+
+  <view class="colorArea" style="background-color: rgba({{r}}, {{g}}, {{b}}, {{a}});"></view>
+</view>
+```
+
+```css
+/* pages/4_4/4_4.wxss */
+.colorArea {
+  width: 335px;
+  height: 100px;
+}
+```
+
+```js
+// pages/4_4/4_4.js
+Page({
+  data: {
+    r: 50,
+    g: 100,
+    b: 150,
+    a: 1
+  },
+
+  colorChanging(e) {
+    let color = e.currentTarget.dataset.color;  // 获取当前slider组件的data-color值
+    let value = e.detail.value;   // 获取当前slider组件的value值
+    console.log(color, value);
+
+    if(color == "r") {
+      this.setData({
+        r: value  // 将value值赋值给数组color
+      })
+    }
+
+    this.setData({
+      [color]: value  // 将value值赋值给数组color
+    })
+  }
+})
+```
+
+`slider`是滑动选择器组件，通过滑动该组件来改变滑块位置。
+
+| 属性名          | 说明                                         |
+| --------------- | -------------------------------------------- |
+| min             | 最小值                                       |
+| max             | 最大值                                       |
+| step            | 步长，取值必须大于0，并且可被(max - min)整除 |
+| value           | 当前取值                                     |
+| activeColor     | 已选择的颜色                                 |
+| backgroundColor | 背景条的颜色                                 |
+| block-size      | 滑块的大小，取值范围为12 - 28                |
+| block-color     | 滑块的颜色                                   |
+| show-value      | 是否显示当前value                            |
+| bindchange      | 完成一次拖动后触发的事件                     |
+| bindchanging    | 拖动过程中触发的事件                         |
+
+组件的`data-*`属性：用于存储页面或应用程序的私有自定义数据，存储的数据能够在JavaScript中使用。`data-*`属性包括两部分：
+
+1. 属性名：不能包含任何大写字母，并且在前缀`data-`之后必须至少有一个字符
+2. 属性值：可以是任意字符串
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.5 轮播图和开关选择器
+
+设计一个小程序，通过`switch`组件控制`swiper`组件的属性，实现轮播图的各种效果。
+
+![](./img/Chapter4/5.png)
+
+```html
+<!--pages/4_5/4_5.wxml-->
+<view class="box">
+  <view class="title">Swiper And Switch</view>
+
+  <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" circular="{{circular}}" vertical="{{vertical}}" interval="{{interval}}" duration="{{duration}}">
+    <block wx:for="{{background}}" wx:key="{{index}}">
+      <swiper-item>
+        <view class="{{item}}"></view>
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <view class="waikuang">
+    <text class="myLeft">指示点</text>
+    <switch checked="{{indicatorDots}}" bindchange="changeIndicatorDots" />
+  </view>
+
+  <view class="waikuang">
+    <text class="myLeft">自动播放</text>
+    <switch checked="{{autoplay}}" bindchange="changeAutoplay" />
+  </view>
+
+  <view class="waikuang">
+    <text class="myLeft">衔接滑动</text>
+    <switch checked="{{circular}}" bindchange="changeCircular" />
+  </view>
+
+  <view class="waikuang">
+    <text class="myLeft">竖向</text>
+    <switch checked="{{vertical}}" bindchange="changeVertical" />
+  </view>
+</view>
+```
+
+```css
+/* pages/4_5/4_5.wxss */
+.bc-red {
+  width: 100%;
+  height: 150px;
+  background-color: red;
+}
+
+.bc-green {
+  width: 100%;
+  height: 150px;
+  background-color: green;
+}
+
+.bc-blue {
+  width: 100%;
+  height: 150px;
+  background-color: blue;
+}
+
+.waikuang {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #353535;
+  margin: 10px 0px;
+  padding: 10px 0px;
+}
+
+.myLeft {
+  flex: 1;
+}
+```
+
+```js
+// pages/4_5/4_5.js
+Page({
+  data: {
+    background: ["bc-red", "bc-green", "bc-blue"],
+    indicatorDots: true,
+    autoplay: false,
+    circular: false,
+    vertical: false,
+    interval: 2000,
+    duration: 500
+  },
+
+  changeIndicatorDots: function(e) {
+    this.setData({
+      indicatorDots: !this.data.indicatorDots
+    })
+  },
+
+  changeAutoplay: function(e) {
+    this.setData({
+      autoplay: !this.data.autoplay
+    })
+  },
+
+  changeCircular: function(e) {
+    this.setData({
+      circular: !this.data.circular
+    })
+  },
+
+  changeVertical: function(e) {
+    this.setData({
+      vertical: !this.data.vertical
+    })
+  }
+})
+```
+
+`swiper`组件：滑块视图容器组件，能够实现轮播图的效果。
+
+| 属性名                 | 说明                                           |
+| ---------------------- | ---------------------------------------------- |
+| indicator-dots         | 是否显示面板指示点                             |
+| indicator-color        | 指示点颜色                                     |
+| indocator-avtive-color | 当前选中的指示点颜色                           |
+| autoplay               | 是否自动切换                                   |
+| current                | 当前所在滑块的index                            |
+| current-item-id        | 当前所在滑块的item-id，不能与current被同时指定 |
+| interval               | 自动切换时间间隔                               |
+| duration               | 滑动动画时长                                   |
+| circular               | 是否采用衔接滑动                               |
+| vertival               | 滑动方向是否为纵向                             |
+| bindchange             | current改变时会触发change事件                  |
+
+`switch`组件：开关选择器组件，能够实现开关效果。
+
+| 属性名     | 说明                           |
+| ---------- | ------------------------------ |
+| checked    | 是否选中                       |
+| disabled   | 是否禁用                       |
+| type       | 样式，有效值：switch, checkbox |
+| bindchange | checked改变时触发change事件    |
+| color      | switch的颜色                   |
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.6 个人信息填写
+
+设计一个小程序，实现个人信息的录入与显示。个人信息包括姓名、性别、籍贯、出生日期、身高、体重等。输入完个人信息后，点击按钮，能够显示录入的个人信息。
+
+![](./img/Chapter4/6.png)
+
+```html
+<!--pages/4_6/4_6.wxml-->
+<view class="box">
+  <view class="title">个人信息填写</view>
+
+  <view class="lineLayout">
+    <view>姓名：</view>
+    <input placeholder="请输入姓名" bindinput="nameInput" />
+  </view>
+
+  <picker bindchange="pickerSex" range="{{gender}}">
+    <view>性别：{{sex}}</view>
+  </picker>
+
+  <picker mode="region" bindchange="pickerRegion">
+    <view>籍贯：{{birthPlace}}</view>
+  </picker>
+
+  <picker mode="date" start="1800-01-01" end="2999-12-12" bindchange="pickerDate">
+    <view>出生日期：{{birthDay}}</view>
+  </picker>
+
+  <view class="lineLayout">
+    <view>身高（CM）：</view>
+    <input type="number" placeholder="请输入身高" bindinput="heightInput" />
+  </view>
+
+  <view class="lineLayout">
+    <view>体重（KG）：</view>
+    <input type="digit" placeholder="请输入体重" bindinput="weightInput" />
+  </view>
+
+  <button type="primary" bindtap="showMessage">显示个人信息</button>
+
+  <view hidden="{{flag}}">
+    <view>姓名：{{person.name}}</view>
+    <view>性别：{{person.sex}}</view>
+    <view>籍贯：{{person.birthPlace}}</view>
+    <view>出生日期：{{person.birthDay}}</view>
+    <view>身高（CM）：{{person.height}}</view>
+    <view>体重（KG）：{{person.weight}}</view>
+  </view>
+</view>
+```
+
+```css
+/* pages/4_6/4_6.wxss */
+.lineLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start; /* 弹性盒子元素在主轴（横轴）方向上的对齐方式 */
+  align-items: center; /* 定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式 */
+}
+
+input {
+  height: 30px;
+  border-bottom: 2px solid silver;
+  margin: 10rpx 0;
+}
+
+picker, button {
+  margin: 15px 0;
+}
+```
+
+```js
+// pages/4_6/4_6.js
+
+function Person(name, sex, birthPlace, birthDay, height, weight) {
+  this.name = name;
+  this.sex = sex;
+  this.birthPlace = birthPlace;
+  this.birthDay = birthDay;
+  this.height = height;
+  this.weight = weight;
+}
+
+Page({
+  data: {
+    flag: true,
+    gender: ["男", "女"]
+  },
+
+  nameInput: function(e) {
+    this.name = e.detail.value
+  },
+
+  pickerSex: function(e) {
+    this.sex = this.data.gender[e.detail.value];
+    this.setData({
+      sex: this.sex
+    })
+  },
+
+  pickerRegion: function(e) {
+    this.birthPlace = e.detail.value;
+    this.setData({
+      birthPlace: this.birthPlace
+    })
+  },
+
+  pickerDate: function(e) {
+    this.birthDay = e.detail.value;
+    this.setData({
+      birthDay: this.birthDay
+    })
+  },
+
+  heightInput: function(e) {
+    this.height = e.detail.value;
+  },
+
+  weightInput: function(e) {
+    this.weight = e.detail.value;
+  },
+
+  showMessage: function(e) {
+    var p = new Person(this.name, this.sex, this.birthPlace, this.birthDay, this.height, this.weight);
+    this.setData({
+      flag: false,
+      person: p
+    })
+  }
+})
+```
+
+`picker`组件：从屏幕底部弹起的滚动选择器，现支持五种类型的选择器，通过`mode`来区分，分别是：普通选择器、多列选择器、时间选择器、日期选择器和省市区选择器，默认的是普通选择器。
+
+- 普通选择器（`mode=selector`）和多列选择器（`mode=multiSelector`）
+
+| 属性名     | 类型                 | 说明                                                         |
+| ---------- | -------------------- | ------------------------------------------------------------ |
+| range      | Array / Object Array | 数据元素数组                                                 |
+| range-key  | String               | 当range是一个Object Array时，通过range-key来指定Object中key的值作为选择器显示内容 |
+| value      | Number               | value的值表示选择了range中的第几个（下标从0开始）元素        |
+| bindchange | EventHandle          | value改变时触发change事件                                    |
+
+- 时间选择器（`mode=time`）
+
+| 属性名     | 类型        | 说明                                |
+| ---------- | ----------- | ----------------------------------- |
+| value      | String      | 表示选中的时间，字符串格式为"hh:mm" |
+| start      | String      | 表示有效时间范围的开始              |
+| end        | String      | 表示有效时间范围的结束              |
+| bindchange | EventHandle | value改变时触发change事件           |
+
+- 日期选择器（`mode=date`）
+
+| 属性名      | 说明                               |
+| ---------- | ---------------------------------- |
+| value       | 表示选中的日期，格式为"YYYY-MM-DD" |
+| start          | 表示有效日期范围的开始             |
+| end           | 表示有效日期范围的结束             |
+| fields         | 有效值year, month, day，表示选择器的粒度，默认值为day |
+| bindchange | value改变时触发change事件          |
+
+- 省市区选择器（`mode=region`）
+
+| 属性名      | 说明                                                  |
+| ----------- | ----------------------------------------------------- |
+| value       | Array类型，表示选中的省市区，默认选中每一列的第一个值 |
+| custom-item | 可为每一列的顶部添加一个自定义的项                    |
+| bindchange  | value改变时触发change事件                             |
+
+自定义构造函数：也是一个普通函数，创建方式也和普通函数一样，但构造函数习惯上首字母大写。
+
+<div STYLE="page-break-after: always;"></div>
+
+### 4.7 图片显示模式
+

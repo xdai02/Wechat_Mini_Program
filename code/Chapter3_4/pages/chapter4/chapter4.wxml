@@ -26,4 +26,60 @@
       <image src="/images/right-arrow.png" class="myright"></image>
     </view>
   </navigator>
+
+  <navigator url="/pages/4_4/4_4">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_4</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_5/4_5">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_5</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_6/4_6">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_6</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_7/4_7">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_7</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_8/4_8">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_8</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_9/4_9">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_9</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/4_10/4_10">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例4_10</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
 </view>
