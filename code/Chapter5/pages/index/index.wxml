@@ -1,0 +1,21 @@
+<!--index.wxml-->
+
+<view class="box">
+  <view class="title">第5章</view>
+
+  <navigator url="/pages/5_1/5_1">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_1</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_2/5_2">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_2</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+</view>

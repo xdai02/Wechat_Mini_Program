@@ -1,0 +1,13 @@
+{
+  "pages":[
+    "pages/index/index",
+    "pages/5_1/5_1",
+    "pages/5_2/5_2"
+  ],
+  "window":{
+    "backgroundTextStyle":"dark",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "第5章",
+    "navigationBarTextStyle":"black"
+  }
+}

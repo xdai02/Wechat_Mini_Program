@@ -3491,3 +3491,135 @@ Page({
 ## 第5章 小程序API
 
 ### 5.1 变脸游戏
+
+设计一个变脸小程序。小程序运行后首先出现一张脸谱画面，当点击这个画面时，脸谱会随机编程另一张画面。
+
+当摇晃手机时，如果摇晃成功，会显示“摇一摇成功”的消息提示框，同时画面会随机变成了另一张脸谱，从而实现变脸。
+
+![](./img/Chapter5/1.png)
+
+```html
+<!--pages/5_1/5_1.wxml-->
+<view class="box">
+  <view class="title">变脸游戏</view>
+  <view>
+    <image src="{{imgArr[index]}}" bindtap="changeFace" mode="widthFix" />
+  </view>
+</view>
+```
+
+```js
+// pages/5_1/5_1.js
+function createRandomIndex() {
+  return Math.floor(Math.random() * 10);
+}
+
+Page({
+  data: {
+    index: 0,
+    imgArr: [
+      "/images/01.jpg",
+      "/images/02.jpg",
+      "/images/03.jpg",
+      "/images/04.jpg",
+      "/images/05.jpg",
+      "/images/06.jpg",
+      "/images/07.jpg",
+      "/images/08.jpg",
+      "/images/09.jpg",
+      "/images/10.jpg"
+    ]
+  },
+
+  changeFace: function() {
+    this.setData({
+      index: createRandomIndex()
+    })
+  },
+
+  onShow: function() {
+    var that = this;
+    wx.onAccelerometerChange(function(res) {
+      // 设置加速度在某个坐标轴方向得到的数值
+      if(res.x > 0.5 || res.y > 0.5 || res.z > 0.5) {
+        wx.showToast({
+          title: '摇一摇成功',
+          icon: "success",
+          duration: 2000
+        })
+
+        that.changeFace();
+      }
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.2 阶乘计算器
+
+设计一个求阶乘的小程序，在输入框中输入一个数值后摇晃手机，如果摇晃成功，将显示摇晃手机成功的消息提示框，并显示该数值的阶乘。
+
+```html
+<!--pages/5_2/5_2.wxml-->
+<view class="box">
+  <view class="title">阶乘计算器</view>
+  <input type="number" bindinput="getInput" placeholder="请输入要求阶乘的数"/>
+  <text>结果为：{{result}}</text>
+</view>
+```
+
+```css
+/* pages/5_2/5_2.wxss */
+input {
+  border-bottom: 3px solid blue;
+  height: 40px;
+  width: 200px;
+  margin: 20px 0;
+}
+```
+
+```js
+// pages/5_2/5_2.js
+Page({
+  getInput: function(e) {
+    this.inputVal = e.detail.value;
+  },
+
+  onShow: function() {
+    var that = this;
+    that.isShow = true;
+
+    wx.onAccelerometerChange(function(e) {
+      // 判断小程序界面是否显示
+      if(!that.isShow) {
+        return;
+      }
+
+      if(e.x > 0.5 || e.y > 0.5 || e.z > 0.5) {
+        wx.showToast({
+          title: '摇一摇成功',
+          icon: "success",
+          duration: 2000
+        })
+
+        var result = 1;
+        for(var i = 1; i <= that.inputVal; i++) {
+          result = result * i;
+        }
+
+        that.setData({
+          result: result
+        })
+      }
+    })
+  },
+
+  onHide: function() {
+    this.isShow = false;
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
