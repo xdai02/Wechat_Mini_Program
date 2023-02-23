@@ -18,4 +18,108 @@
       <image src="/images/right-arrow.png" class="myright"></image>
     </view>
   </navigator>
+
+  <navigator url="/pages/5_3/5_3">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_3</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_4/5_4">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_4</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_5/5_5">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_5</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_6/5_6">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_6</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_7/5_7">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_7</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_8/5_8">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_8</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_9/5_9">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_9</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_10/5_10">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_10</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_11/5_11">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_11</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_12/5_12">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_12</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_13/5_13">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_13</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_14/5_14">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_14</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
+
+  <navigator url="/pages/5_15/5_15">
+    <view class="waikuang">
+      <icon type="success" class="myleft"></icon>
+      <view class="mycenter">案例5_15</view>
+      <image src="/images/right-arrow.png" class="myright"></image>
+    </view>
+  </navigator>
 </view>

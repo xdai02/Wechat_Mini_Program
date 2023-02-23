@@ -3623,3 +3623,364 @@ Page({
 ```
 
 <div STYLE="page-break-after: always;"></div>
+
+### 5.3 基本绘图
+
+设计一个小程序，实现基本绘图和设置图形样式功能，绘图包括：绘制点、线、圆、矩形、文字等；设置图形样式包括：设置线条的粗细、类型、端点样式、图形的渐变样式、阴影、透明度等。
+
+```html
+<!--pages/5_3/5_3.wxml-->
+<view class="box">
+  <view class="title">基本绘图</view>
+
+  <view>
+    <canvas canvas-id="myCanvas" />
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="clear">清除</button>
+    <button type="primary" bindtap="drawDot">画点</button>
+    <button type="primary" bindtap="drawCircle">画圆</button>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="drawDash">画虚线</button>
+    <button type="primary" bindtap="capAndJoin">端点交点</button>
+    <button type="primary" bindtap="drawText">画字</button>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="circularGrad">圆形渐变</button>
+    <button type="primary" bindtap="shadowRect">阴影矩形</button>
+    <button type="primary" bindtap="translucent">半透明</button>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_3/5_3.wxss */
+canvas {
+  width: 100%;
+  height: 340px;
+  background-color: cornflowerblue;
+}
+
+button {
+  width: 100px;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  margin: 10px;
+  justify-content: space-around; /* 弹性项目沿主轴方向平均平布，两边留有一半的间隔空间 */
+}
+```
+
+```js
+// pages/5_3/5_3.js
+var ctx = wx.createCanvasContext('myCanvas')
+
+Page({
+  clear: function () {
+    ctx.draw(); // 刷新屏幕，显示绘制效果（无参数或参数为false时要先清除画布）
+  },
+
+  drawDot: function (e) {
+    ctx.arc(200, 200, 10, 0, 2 * Math.PI);
+    ctx.setFillStyle("black");
+    ctx.fill(); // 对当前路径中的内容进行填充，默认的填充色为黑色
+    ctx.draw();
+  },
+
+  drawCircle: function () {
+    ctx.setFillStyle("black");
+    ctx.arc(200, 200, 10, 0, 2 * Math.PI);
+    ctx.fill();
+
+    ctx.setStrokeStyle("red") // 设置描边颜色
+    ctx.moveTo(300, 200); // 把路径移动到画布中的指定点，不创建线条
+    ctx.arc(200, 200, 100, 0, 2 * Math.PI); // 创建以(200,200)为圆心，以100为半径的圆
+    ctx.stroke(); // 画出当前路径的边框
+    ctx.draw()
+  },
+
+  drawDash: function () {
+    ctx.setStrokeStyle("red");
+    ctx.setLineDash([20, 10]); // 线条的长度为20，线条与线条的间隔为10
+    ctx.setLineWidth(10); // 设置宽度
+    ctx.moveTo(50, 100); // 把路径移动到画布中的指定点
+    ctx.lineTo(250, 100);
+    ctx.lineTo(150, 300);
+    ctx.lineTo(50, 100);
+
+    ctx.stroke();
+    ctx.draw();
+    ctx.setLineDash([0, 0]); // 恢复默认线条样式
+    ctx.setLineWidth(1); // 恢复默认线条宽度
+  },
+
+  capAndJoin: function () {
+    ctx.setStrokeStyle("red");
+    ctx.setLineWidth(20);
+    ctx.setLineCap("round"); // 设置线条端点样式
+    ctx.setLineJoin("miter"); // 设置线条连接样式
+    ctx.moveTo(50, 50);
+    ctx.lineTo(250, 50);
+    ctx.lineTo(50, 250);
+    ctx.lineTo(250, 250);
+    ctx.stroke();
+    ctx.draw();
+    ctx.setLineWidth(1);
+    ctx.setLineCap("butt"); // 设置线条端点样式
+    ctx.setLineJoin("mitter");
+  },
+
+  drawText: function() {
+    ctx.setFillStyle("red");
+    ctx.setFontSize(40);
+    ctx.setTextBaseline("bottom");  // 设置文本基线
+    ctx.fillText("北方工业大学", 80, 80);
+
+    ctx.setFillStyle("yellow");
+    ctx.setTextBaseline("top");
+    ctx.fillText("北方工业大学", 80, 80);
+
+    ctx.setFillStyle("black");
+    ctx.rotate(30 * Math.PI / 180);   // 旋转字体
+    ctx.fillText("北方工业大学", 150, 80);
+
+    ctx.draw();
+  },
+
+  circularGrad: function() {
+    var grd = ctx.createCircularGradient(175, 175, 125);  // 创建以点(175,175)为圆心，以125为半径的圆形渐变
+    grd.addColorStop(0, "purple");  // 添加渐变起点
+    grd.addColorStop(1, "white");   // 添加渐变终点
+    ctx.setFillStyle(grd);      // 设置圆形渐变填充样式
+    ctx.fillRect(50, 50, 250, 250); // 创建起点(50,50)，宽度和高度都为250的填充矩形
+    ctx.draw();
+  },
+
+  shadowRect: function() {
+    ctx.setFillStyle("orange");
+    ctx.setShadow(20, 20, 50, "yellow");  // 设置阴影
+    ctx.fillRect(50, 50, 250, 250);
+    ctx.draw();
+  },
+
+  translucent: function() {
+    ctx.setFillStyle("red");
+    ctx.setGlobalAlpha(0.2);  // 设置全局透明度
+    ctx.fillRect(50, 50, 250, 250);
+    ctx.draw();
+    ctx.setGlobalAlpha(1);    // 恢复以前设置
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.4 参数绘图
+
+参数化绘图是指根据用户输入的数据作为图形参数绘制图形，从而实现交互式绘图。设计一个小程序，通过输入圆心坐标和半径绘制圆（保留以前绘制的图形）。
+
+```html
+<!--pages/5_4/5_4.wxml-->
+<view class="box">
+  <view class="title">参数绘图</view>
+
+  <view class="style01">
+    <canvas canvas-id="myCanvas"/>
+  </view>
+
+  <view>
+    <form bindsubmit="drawCircle" bindreset="clear">
+      <input name="x" type="number" placeholder="请输入圆心x坐标"/>
+      <input name="y" type="number" placeholder="请输入圆心y坐标"/>
+      <input name="radius" type="number" placeholder="请输入圆的半径"/>
+      <view class="style02">
+        <button type="primary" form-type="submit">画圆</button>
+        <button type="primary" form-type="reset">清空</button>
+      </view>
+    </form>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_4/5_4.wxss */
+.style01 {
+  width: 100%;
+}
+
+canvas {
+  border: 1px solid springgreen;
+  width: 100%;
+  height: 250px;
+  margin-bottom: 20px;
+}
+
+input {
+  margin-bottom: 20px;
+  border-bottom: 1px solid rebeccapurple;
+}
+
+.style02 {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+```
+
+```js
+// pages/5_4/5_4.js
+Page({
+  onLoad: function() {
+    this.ctx = wx.createCanvasContext('myCanvas', this);
+  },
+
+  drawCircle: function(e) {
+    var x = e.detail.value.x;
+    var y = e.detail.value.y;
+    var radius = e.detail.value.radius;
+
+    this.ctx.arc(x, y, radius, 0, 2*Math.PI);
+    this.ctx.stroke();  // 画出当前路径的边框
+    this.ctx.draw(true);
+  },
+
+  clear: function() {
+    this.ctx.draw();
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.5 改变图形
+
+设计小程序，实现对图形的绘制、放大、移动和旋转等功能。
+
+```html
+<!--pages/5_5/5_5.wxml-->
+<view class="box">
+  <view class="title">变形</view>
+
+  <view class="style01">
+    <canvas canvas-id="myCanvas"/>
+  </view>
+
+  <view class="style02">
+    <button type="primary" bindtap="drawRect">绘图</button>
+    <button type="primary" bindtap="scale">放大</button>
+    <button type="primary" bindtap="translate">移动</button>
+    <button type="primary" bindtap="rotate">旋转</button>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_5/5_5.wxss */
+.style01 {
+  width: 100%;
+}
+
+.style02 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+canvas {
+  border: 1px solid springgreen;
+  width: 100%;
+  height: 200px;
+}
+
+button {
+  width: 23%;
+  margin: 10px 0px;
+}
+```
+
+```js
+// pages/5_5/5_5.js
+Page({
+  onReady: function() {
+    this.ctx = wx.createCanvasContext('myCanvas', this);
+  },
+
+  drawRect: function() {
+    var ctx = this.ctx;
+    ctx.rect(0, 0, 50, 50);
+    ctx.stroke();
+    ctx.draw(true); // 参数为true表示保留以前画布图形
+  },
+
+  scale: function() {
+    this.ctx.scale(2, 2); // 缩放图形
+    this.drawRect();
+  },
+
+  translate: function() {
+    this.ctx.translate(20, 20); // 移动图形
+    this.drawRect();
+  },
+
+  rotate: function() {
+    this.ctx.rotate(30 * Math.PI / 180);
+    this.drawRect();
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.6 绘制正弦曲线
+
+编写一个小程序，实现正弦曲线的绘制。
+
+![](./img/Chapter5/2.png)
+
+```html
+<!--pages/5_6/5_6.wxml-->
+<view class="box">
+  <view class="title">绘制正弦曲线</view>
+
+  <view>
+    <canvas canvas-id="myCanvas"/>
+  </view>
+</view>
+```
+
+```js
+// pages/5_6/5_6.js
+var ctx = wx.createCanvasContext('myCanvas');
+Page({
+  onLoad: function(options) {
+    this.drawSinX();
+  },
+
+  // 绘制实心圆点
+  drawDot: function(x, y) {
+    ctx.arc(x, y, 5, 0, 2*Math.PI);
+    ctx.setFillStyle("black");
+    ctx.fill();
+    ctx.draw(true);
+  },
+
+  drawSinX: function() {
+    for(var x = 0; x < 2 * Math.PI; x += Math.PI / 180) {
+      var y = Math.sin(x);
+      // 放大x和y的比例
+      this.drawDot(10 + 50*x, 60 + 50*y);
+    }
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.7 自由绘图
+

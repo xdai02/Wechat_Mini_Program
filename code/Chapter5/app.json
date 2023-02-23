@@ -2,7 +2,20 @@
   "pages":[
     "pages/index/index",
     "pages/5_1/5_1",
-    "pages/5_2/5_2"
+    "pages/5_2/5_2",
+    "pages/5_3/5_3",
+    "pages/5_4/5_4",
+    "pages/5_5/5_5",
+    "pages/5_6/5_6",
+    "pages/5_7/5_7",
+    "pages/5_8/5_8",
+    "pages/5_9/5_9",
+    "pages/5_10/5_10",
+    "pages/5_11/5_11",
+    "pages/5_12/5_12",
+    "pages/5_13/5_13",
+    "pages/5_14/5_14",
+    "pages/5_15/5_15"
   ],
   "window":{
     "backgroundTextStyle":"dark",

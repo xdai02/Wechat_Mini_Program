@@ -12,7 +12,7 @@ function Person(name, sex, birthPlace, birthDay, height, weight) {
 Page({
   data: {
     flag: true,
-    gender: ["男", "女"]
+    gender: ["男", "女"],
   },
 
   nameInput: function(e) {
