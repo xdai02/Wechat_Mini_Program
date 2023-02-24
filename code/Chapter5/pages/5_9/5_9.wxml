@@ -1,2 +1,10 @@
 <!--pages/5_9/5_9.wxml-->
-<text>pages/5_9/5_9.wxml</text>
+<view class="box">
+  <view class="title">照相和摄像</view>
+  <view>
+    <button type="primary" bindtap="chooseimage">获取图片</button>
+    <image mode="scaleToFill" src="{{imgPath}}"/>
+    <button type="primary" bindtap="chooseVideo">获取视频</button>
+    <video class="video" src="{{videoPath}}"/>
+  </view>
+</view>

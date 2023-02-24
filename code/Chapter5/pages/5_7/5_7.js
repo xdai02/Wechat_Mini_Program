@@ -1,66 +1,83 @@
 // pages/5_7/5_7.js
 Page({
+  isClear: false,   // 不启动擦除
 
-  /**
-   * 页面的初始数据
-   */
   data: {
-
+    pen: 5,    // 画笔粗细默认值
+    color: "#000000"  // 画笔颜色默认值
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  onLoad: function() {
+    this.ctx = wx.createCanvasContext('myCanvas', this);
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  touchStart: function(e) {
+    this.x1 = e.changedTouches[0].x;  // 开始触摸屏幕点x坐标
+    this.y1 = e.changedTouches[0].y;  // 开始触摸屏幕点y坐标
+    
+    // 如果是擦除模式
+    if(this.isClear) {
+      this.ctx.setStrokeStyle("#FFFFFF"); // 设置画布颜色为背景颜色（白色）
+      this.ctx.setLineCap("round");     // 设置线条端点样式
+      this.ctx.setLineJoin("round");    // 设置线条交点样式
+      this.ctx.setLineWidth(20);
+      this.ctx.beginPath();
+    }
+    // 如果是绘图模式
+    else {
+      this.ctx.setStrokeStyle(this.data.color);
+      this.ctx.setLineWidth(this.data.pen);
+      this.ctx.setLineCap("round");
+      this.ctx.beginPath();
+    }
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
+  touchMove: function(e) {
+    var x2 = e.changedTouches[0].x;  // 当前触摸屏幕点x坐标
+    var y2 = e.changedTouches[0].y;  // 当前触摸屏幕点y坐标
 
+    if(this.isClear) {
+      this.ctx.moveTo(this.x1, this.y1);
+      this.ctx.lineTo(x2, y2);
+      this.ctx.stroke();
+      this.x1 = x2;
+      this.y1 = y2;
+    } else {
+      this.ctx.moveTo(this.x1, this.y1);
+      this.ctx.lineTo(x2, y2);
+      this.ctx.stroke();
+      this.x1 = x2;
+      this.y1 = y2;
+    }
+
+    this.ctx.draw(true);
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
+  touchEnd: function() {},
 
+  penSelect: function(e) {
+    this.setData({
+      pen: parseInt(e.currentTarget.dataset.param)
+    });
+    this.isClear = false;
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
+  colorSelect: function(e) {
+    this.setData({
+      color: e.currentTarget.dataset.param
+    });
+    this.isClear = false;
   },
 
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
+  clear: function() {
+    this.isClear = true;
   },
 
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  clearAll: function() {
+    this.setData({
+      pen: 5,
+      color: "#000000"
+    });
+    this.ctx.draw();
   }
 })

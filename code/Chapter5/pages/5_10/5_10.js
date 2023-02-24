@@ -1,66 +1,46 @@
 // pages/5_10/5_10.js
 Page({
+  latitude: 39.93111, // 纬度
+  longitude: 116.199167,  // 经度
+  markers: [
+    {
+      id: 1,
+      latitude: 39.93111,
+      longitude: 116.199167,
+      iconPath: "/images/guanyu_youshi.png", // 标记点图标
+      // 标记点标签
+      label: {
+        content: "我的位置",
+        color: "#0000ff",
+        bgColor: "#ffff00",
+        fontSize: 20
+      }
+    },
+    {
+      latitude: 39.92528,
+      longitude: 116.20111,
+      iconPath: "/images/guanyu_youshi.png"
+    }
+  ],
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
+  chooseLocation: function() {
+    wx.chooseLocation({
+      success: function(res) {
+        console.log(res)
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  openLocation: function() {
+    wx.getLocation({
+      type: "gcj02",
+      success: function(res) {
+        wx.openLocation({
+          latitude: res.latitude,
+          longitude: res.longitude,
+          scale: 15
+        })
+      }
+    })
   }
 })

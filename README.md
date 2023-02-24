@@ -3984,3 +3984,1195 @@ Page({
 
 ### 5.7 自由绘图
 
+设计一个实现自由绘图的小程序，可以在画布上进行自由绘图。绘图时可以选择笔的粗细和颜色，还可以擦除图形和清空屏幕。
+
+```html
+<!--pages/5_7/5_7.wxml-->
+<view class="box">
+  <view class="title">自由绘图</view>
+
+  <view>
+    <canvas canvas-id="myCanvas" disable-scroll="true" bindtouchstart="touchStart" bindtouchmove="touchMove" bindtouchend="touchEnd"/>
+  </view>
+
+  <view class="toolStyle01">
+    <view class="toolStyle02">
+      <view class="toolStyle" hover-class="changeBc" bindtap="penSelect" data-param="5">钢笔</view>
+      <view class="toolStyle" hover-class="changeBc" bindtap="penSelect" data-param="15">毛笔</view>
+    </view>
+
+    <view class="toolStyle02">
+      <view class="toolStyle" hover-class="changeBc" bindtap="colorSelect" data-param="red">红色</view>
+      <view class="toolStyle" hover-class="changeBc" bindtap="colorSelect" data-param="blue">蓝色</view>
+    </view>
+
+    <view class="toolStyle02">
+      <view class="toolStyle" hover-class="changeBc" bindtap="clear">擦除</view>
+      <view class="toolStyle" hover-class="changeBc" bindtap="clearAll">清屏</view>
+    </view>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_7/5_7.wxss */
+canvas {
+  width: 100%;
+  height: 360px;
+  border: 1px solid springgreen;
+}
+
+.toolStyle01 {
+  /* 底部画图工具总体布局 */
+  position: absolute; /* 生成绝对定位的元素，相对于static定位以外的第一个父元素进行定位 */
+  bottom: 10px; /* 距离页面底部10px */
+  display: flex;
+  flex-direction: row;
+}
+
+.toolStyle02 {
+  display: flex;
+  flex-direction: column;
+}
+
+.toolStyle {
+  width: 60px;
+  height: 60px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 60px;
+  background: green;
+  color: #fff;
+  margin: 10px 20px;
+}
+```
+
+```js
+// pages/5_7/5_7.js
+Page({
+  isClear: false,   // 不启动擦除
+
+  data: {
+    pen: 5,    // 画笔粗细默认值
+    color: "#000000"  // 画笔颜色默认值
+  },
+
+  onLoad: function() {
+    this.ctx = wx.createCanvasContext('myCanvas', this);
+  },
+
+  touchStart: function(e) {
+    this.x1 = e.changedTouches[0].x;  // 开始触摸屏幕点x坐标
+    this.y1 = e.changedTouches[0].y;  // 开始触摸屏幕点y坐标
+    
+    // 如果是擦除模式
+    if(this.isClear) {
+      this.ctx.setStrokeStyle("#FFFFFF"); // 设置画布颜色为背景颜色（白色）
+      this.ctx.setLineCap("round");     // 设置线条端点样式
+      this.ctx.setLineJoin("round");    // 设置线条交点样式
+      this.ctx.setLineWidth(20);
+      this.ctx.beginPath();
+    }
+    // 如果是绘图模式
+    else {
+      this.ctx.setStrokeStyle(this.data.color);
+      this.ctx.setLineWidth(this.data.pen);
+      this.ctx.setLineCap("round");
+      this.ctx.beginPath();
+    }
+  },
+
+  touchMove: function(e) {
+    var x2 = e.changedTouches[0].x;  // 当前触摸屏幕点x坐标
+    var y2 = e.changedTouches[0].y;  // 当前触摸屏幕点y坐标
+
+    if(this.isClear) {
+      this.ctx.moveTo(this.x1, this.y1);
+      this.ctx.lineTo(x2, y2);
+      this.ctx.stroke();
+      this.x1 = x2;
+      this.y1 = y2;
+    } else {
+      this.ctx.moveTo(this.x1, this.y1);
+      this.ctx.lineTo(x2, y2);
+      this.ctx.stroke();
+      this.x1 = x2;
+      this.y1 = y2;
+    }
+
+    this.ctx.draw(true);
+  },
+
+  touchEnd: function() {},
+
+  penSelect: function(e) {
+    this.setData({
+      pen: parseInt(e.currentTarget.dataset.param)
+    });
+    this.isClear = false;
+  },
+
+  colorSelect: function(e) {
+    this.setData({
+      color: e.currentTarget.dataset.param
+    });
+    this.isClear = false;
+  },
+
+  clear: function() {
+    this.isClear = true;
+  },
+
+  clearAll: function() {
+    this.setData({
+      pen: 5,
+      color: "#000000"
+    });
+    this.ctx.draw();
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.8 动画
+
+设计一个小程序，实现各种动画效果，包括旋转、缩放、移动、倾斜以及动画展示顺序。
+
+```html
+<!--pages/5_8/5_8.wxml-->
+<view class="box">
+  <view class="title">动画演示</view>
+
+  <view class="animation-area">
+    <view class="animation-element" animation="{{animation}}"></view>
+  </view>
+
+  <view class="btn-row">
+    <button bindtap="rotate" style="width: 24%">旋转</button>
+    <button bindtap="scale" style="width: 24%">缩放</button>
+    <button bindtap="translate" style="width: 24%">移动</button>
+    <button bindtap="skew" style="width: 24%">倾斜</button>
+  </view>
+
+  <view class="btn-row">
+    <button bindtap="rotateAndScale" style="width: 48%">旋转并缩放</button>
+    <button bindtap="rotateThenScale" style="width: 48%">旋转后缩放</button>
+  </view>
+
+  <view class="btn-row">
+    <button bindtap="all" style="width: 48%">同时展示全部</button>
+    <button bindtap="allInQueue" style="width: 48%">顺序展示全部</button>
+  </view>
+
+  <view>
+    <button bindtap="reset" style="width: 96%">还原</button>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_8/5_8.wxss */
+.animation-area {
+  display: flex;
+  width: 100%;
+  padding-top: 150rpx;
+  padding-bottom: 150rpx;
+  justify-content: center;
+  overflow: hidden;   /* 动画演示时，隐藏超出区域 */
+  background-color: #fff;
+  border: 1px solid sandybrown;
+  margin-bottom: 10px;
+}
+
+.animation-element {
+  width: 200rpx;
+  height: 200rpx;
+  background-color: #1aad19;
+}
+
+.btn-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+button {
+  margin: 5px;
+}
+```
+
+```js
+// pages/5_8/5_8.js
+Page({
+  onReady: function () {
+    this.animation = wx.createAnimation();
+  },
+
+  rotate: function () {
+    // -360 ~ 360
+    this.animation.rotate(Math.random() * 720 - 360).step();
+    this.setData({
+      animation: this.animation.export() // 输出动画，并渲染
+    })
+  },
+
+  scale: function () {
+    this.animation.scale(Math.random() * 2).step();
+    this.setData({
+      animation: this.animation.export()
+    })
+  },
+
+  translate: function () {
+    this.animation.translate(Math.random() * 100 - 50, Math.random() * 100 - 50).step();
+    this.setData({
+      animation: this.animation.export()
+    })
+  },
+
+  skew: function () {
+    this.animation.skew(Math.random() * 90, Math.random() * 90).step();
+    this.setData({
+      animation: this.animation.export()
+    })
+  },
+
+  rotateAndScale: function () {
+    this.animation.rotate(Math.random() * 720 - 360)
+      .scale(Math.random() * 2)
+      .step();
+    this.setData({
+      animation: this.animation.export()
+    })
+  },
+
+  rotateThenScale: function () {
+    this.animation.rotate(Math.random() * 720 - 360).step()
+      .scale(Math.random() * 2).step();
+    this.setData({
+      animation: this.animation.export()
+    })
+  },
+
+  all: function () {
+    this.animation.rotate(Math.random() * 720 - 360)
+      .scale(Math.random() * 2)
+      .translate(Math.random() * 100 - 50, Math.random() * 100 - 50)
+      .skew(Math.random() * 90, Math.random() * 90)
+      .step();
+    this.setData({
+      animation: this.animation.export()
+    })
+  },
+
+  allInQueue: function () {
+    this.animation.rotate(Math.random() * 720 - 360).step()
+      .scale(Math.random() * 2).step()
+      .translate(Math.random() * 100 - 50, Math.random() * 100 - 50).step()
+      .skew(Math.random() * 90, Math.random() * 90).step();
+    this.setData({
+      animation: this.animation.export()
+    })
+  },
+
+  reset: function() {
+    this.animation.rotate(0, 0)
+      .scale(1)
+      .translate(0, 0)
+      .skew(0, 0)
+      .step({
+        duration: 0
+      });
+    this.setData({
+      animation: this.animation.export()
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.9 照相和摄像
+
+设计一个能够进行拍照和摄像的小程序，并显示拍摄的照片和视频。
+
+```html
+<!--pages/5_9/5_9.wxml-->
+<view class="box">
+  <view class="title">照相和摄像</view>
+  <view>
+    <button type="primary" bindtap="chooseimage">获取图片</button>
+    <image mode="scaleToFill" src="{{imgPath}}"/>
+    <button type="primary" bindtap="chooseVideo">获取视频</button>
+    <video class="video" src="{{videoPath}}"/>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_9/5_9.wxss */
+page {
+  background-color: #f8f8f8;
+  height: 100%;
+}
+
+button {
+  margin: 20rpx;
+}
+
+image {
+  background-color: gainsboro;
+  height: 200px;
+  width: 100%;
+}
+
+video {
+  width: 100%;
+  height: 200px;
+}
+```
+
+```js
+// pages/5_9/5_9.js
+Page({
+  chooseimage: function() {
+    var that = this;
+    wx.chooseImage({
+      count: 1,   // 默认9
+      sizeType: ["original", "compressed"], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ["album", "camera"],
+      success: function(res) {
+        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+        that.setData({
+          imgPath: res.tempFilePaths
+        })
+      }
+    })
+  },
+
+  chooseVideo: function() {
+    var that = this;
+    wx.chooseVideo({
+      sourceType: ["album", "camera"],
+      maxDuration: 60,
+      camera: ["front", "back"],
+      success: function(res) {
+        wx.showToast({
+          title: res.tempFilePath,
+          icon: 'success',
+          duration: 2000
+        })
+        that.setData({
+          videoPath: res.tempFilePath
+        })
+      }
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.10 位置和地图
+
+设计一个小程序，利用map组件和相应的API函数实现选择和打开位置的功能。
+
+```html
+<!--pages/5_10/5_10.wxml-->
+<view class="box">
+  <view class="title">位置和地图</view>
+
+  <view>
+    <map id="myMap" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" show-location/>
+  </view>
+
+  <view class="btnLayout">
+    <button bindtap="chooseLocation" type="primary">选择位置</button>
+    <button bindtap="openLocation" type="primary">打开位置</button>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_10/5_10.wxss */
+map {
+  margin: 10px 0px;
+  width: 100%;
+  height: 320px;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+```
+
+```js
+// pages/5_10/5_10.js
+Page({
+  latitude: 39.93111, // 纬度
+  longitude: 116.199167,  // 经度
+  markers: [
+    {
+      id: 1,
+      latitude: 39.93111,
+      longitude: 116.199167,
+      iconPath: "/images/guanyu_youshi.png", // 标记点图标
+      // 标记点标签
+      label: {
+        content: "我的位置",
+        color: "#0000ff",
+        bgColor: "#ffff00",
+        fontSize: 20
+      }
+    },
+    {
+      latitude: 39.92528,
+      longitude: 116.20111,
+      iconPath: "/images/guanyu_youshi.png"
+    }
+  ],
+
+  chooseLocation: function() {
+    wx.chooseLocation({
+      success: function(res) {
+        console.log(res)
+      }
+    })
+  },
+
+  openLocation: function() {
+    wx.getLocation({
+      type: "gcj02",
+      success: function(res) {
+        wx.openLocation({
+          latitude: res.latitude,
+          longitude: res.longitude,
+          scale: 15
+        })
+      }
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.11 文件操作
+
+设计一个小程序，实现对文件的操作，包括：打开、保存和删除文件，以及显示文件信息等内容。
+
+```html
+<!--pages/5_11/5_11.wxml-->
+<view class="box">
+  <view class="title">文件操作</view>
+
+  <image src="{{imgPath}}"/>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="openFile">打开文件</button>
+    <button type="primary" bindtap="saveFile">保存文件</button>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="getSavedFileInfo">文件信息</button>
+    <button type="primary" bindtap="removedSavedFile">删除文件</button>
+  </view>
+
+  <view class="fileInfo" hidden="{{hidden}}">
+    <text>{{msg}}</text>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_11/5_11.wxss */
+page {
+  text-align: center;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+button {
+  width: 45%;
+  margin: 5px;
+}
+
+.fileInfo {
+  margin: 10rpx 0;
+  background-color: #f8f8f8;
+  text-align: left;
+  border: 1px solid seagreen;
+}
+```
+
+```js
+// pages/5_11/5_11.js
+// 定义存放所有文件和单个文件路径的全局变量
+var tempFilePaths, tempFilePath;
+
+Page({
+  data: {
+    msg: '', // 小程序运行时没有文件信息
+    hidden: true
+  },
+
+  openFile: function () {
+    var that = this;
+    wx.chooseImage({
+      success(res) {
+        tempFilePaths = res.tempFilePaths; // 获取所有打开图片文件的路径
+        console.log("打开文件路径：" + tempFilePaths);
+        that.setData({
+          imgPath: tempFilePaths[0], // 显示打开的第一张图片
+          hidden: false,
+          msg: "文件打开成功！"
+        })
+      }
+    })
+  },
+
+  saveFile: function () {
+    var that = this;
+    wx.saveFile({
+      tempFilePath: tempFilePaths[0],
+      success(res) {
+        console.log("保存文件路径：" + res.savedFilePath);
+        that.setData({
+          hidden: false,
+          msg: "文件保存成功！"
+        })
+      }
+    })
+  },
+
+  getSavedFileInfo: function () {
+    var i, file;
+    var that = this;
+
+    wx.getSavedFileList({
+      success: function(res) {
+        // 如果没有保存的文件
+        if(res.fileList.length == 0) {
+          that.setData({
+            hidden: false,
+            msg: "没有文件信息"
+          })
+        } else {
+          for(i = 0; i < res.fileList.length; i++) {
+            file = res.fileList[i];
+            console.log("第" + (i+1) + "个文件路径：" + file.filePath);
+            
+            // 获取已保存的文件信息
+            wx.getSavedFileInfo({
+              filePath: file.filePath,
+              success: function(res) {
+                console.log("第" + (i+1) + "个文件大小为：" + res.size);
+                that.setData({
+                  hidden: false,
+                  msg: "文件数量：" + i + "\n最后一个文件的大小：" + res.size + "\n最后一个文件的创建时间：" + res.createTime
+                })
+              }
+            })
+          }
+        }
+      }
+    })
+  },
+
+  removedSavedFile: function() {
+    var i, file;
+    var that = this;
+
+    wx.getSavedFileList({
+      success: function(res) {
+        for(i = 0; i < res.fileList.length; i++) {
+          file = res.fileList[i];
+          wx.removeSavedFile({
+            filePath: file.filePath,
+          })
+          console.log("第" + (i+1) + "个文件被删除！");
+        }
+
+        that.setData({
+          hidden: false,
+          msg: "文件被全部删除"
+        })
+      }
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.12 数据缓存
+
+设计一个小程序，利用API函数实现对数据缓存的操作，包括同步和异步缓存数据、获取缓存数据及其信息、删除缓存数据等操作。
+
+```html
+<!--pages/5_12/5_12.wxml-->
+<view class="box">
+  <view class="title">缓存操作</view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="setStorage">异步存储数据</button>
+    <button type="primary" bindtap="setStorageSync">同步存储数据</button>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="getStorage">异步获取数据</button>
+    <button type="primary" bindtap="getStorageSync">同步获取数据</button>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="getStorageInfo">异步缓存信息</button>
+    <button type="primary" bindtap="getStorageInfoSync">同步缓存信息</button>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="removeStorage">异步删除数据</button>
+    <button type="primary" bindtap="removeStorageSync">同步删除数据</button>
+  </view>
+
+  <view class="storageInfo" hidden="{{hidden}}">
+    <text>{{msg}}</text>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_12/5_12.wxss */
+page {
+  text-align: center;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+button {
+  width: 45%;
+  margin: 5px;
+}
+
+.storageInfo {
+  margin: 20rpx 0;
+  padding: 20rpx;
+  background-color: #f8f8f8;
+  text-align: left;
+  border: 1px solid seagreen;
+}
+```
+
+```js
+// pages/5_12/5_12.js
+Page({
+  data: {
+    msg: "",
+    hidden: true
+  },
+
+  Student: function (id, name, Chinese, Math, English) {
+    this.id = id;
+    this.name = name;
+    this.Chinese = Chinese;
+    this.Math = Math;
+    this.English = English;
+  },
+
+  loadStudents: function () {
+    var Students = new Array();
+    var stu1 = new this.Student("1", "TOM", 95, 87, 72);
+    var stu2 = new this.Student("2", "Kevin", 75, 97, 79);
+    Students.push(stu1);
+    Students.push(stu2);
+    return Students;
+  },
+
+  setStorage: function () {
+    var that = this;
+    // 调用异步存储数据函数
+    wx.setStorage({
+      key: "高一", // 本地缓存中指定的key
+      data: this.loadStudents(),
+      success: function () {
+        that.setData({
+          hidden: false,
+          msg: "异步存储数据成功！"
+        })
+      }
+    })
+  },
+
+  setStorageSync: function () {
+    var that = this;
+    wx.setStorageSync('高二', this.loadStudents());
+    that.setData({
+      hidden: false,
+      msg: "同步存储数据成功！"
+    })
+  },
+
+  getStorage: function () {
+    var that = this;
+    wx.getStorage({
+      key: "高一",
+      success: function (res) {
+        var length = res.data.length; // 获取学生数量
+        if (length > 1) {
+          that.setData({
+            hidden: false,
+            msg: "异步获取缓存数据成功，学生1为：" +
+              "\n学号：" + res.data[length - 2].id +
+              "\n姓名：" + res.data[length - 2].name +
+              "\n语文成绩：" + res.data[length - 2].Chinese +
+              "\n数学成绩：" + res.data[length - 2].Math +
+              "\n英语成绩：" + res.data[length - 2].English
+          })
+          console.log(res.data);
+        }
+      },
+      fail: function () {
+        that.setData({
+          hidden: false,
+          msg: "异步获取缓存数据失败！"
+        })
+      }
+    })
+  },
+
+  getStorageSync: function () {
+    var that = this;
+
+    try {
+      var value = wx.getStorageSync('高二');
+      var length = value.length;
+
+      if (length > 1) {
+        that.setData({
+          hidden: false,
+          msg: "同步获取缓存数据成功，学生2为" +
+            "\n学号：" + value[length - 1].id +
+            "\n姓名：" + value[length - 1].name +
+            "\n语文成绩：" + value[length - 1].Chinese +
+            "\n数学成绩：" + value[length - 1].Math +
+            "\n英语成绩：" + value[length - 1].English
+        })
+        console.log(value);
+      }
+    } catch (e) {
+      that.setData({
+        hidden: false,
+        msg: "同步获取缓存数据失败！"
+      });
+      console.log(e);
+    }
+  },
+
+  getStorageInfo: function () {
+    var that = this;
+    wx.getStorageInfo({
+      success: function (res) {
+        that.setData({
+          hidden: false,
+          msg: "异步获取缓存信息成功！" +
+            "\n已使用空间：" + res.currentSize +
+            "\n最大空间为：" + res.limitSize
+        });
+        console.log(res);
+      },
+      fail: function () {
+        that.setData({
+          hidden: false,
+          msg: "异步获取缓存信息失败！"
+        })
+      }
+    })
+  },
+
+  getStorageInfoSync: function () {
+    var that = this;
+
+    try {
+      var res = wx.getStorageInfoSync();
+      that.setData({
+        hidden: false,
+        msg: "同步获取缓存信息成功！" +
+          "\n已使用空间：" + res.currentSize +
+          "\n最大空间为：" + res.limitSize
+      });
+      console.log(res);
+    } catch (e) {
+      that.setData({
+        hidden: false,
+        msg: "同步获取缓存信息失败！"
+      });
+      console.log(e);
+    }
+  },
+
+  removeStorage: function () {
+    var that = this;
+    wx.removeStorage({
+      key: '高一',
+      success: function (res) {
+        that.setData({
+          hidden: false,
+          msg: "异步删除缓存数据成功！"
+        });
+        console.log(res.data);
+      },
+      fail: function () {
+        that.setData({
+          hidden: false,
+          msg: "异步删除缓存数据失败！"
+        })
+      }
+    })
+  },
+
+  removeStorageSync: function () {
+    var that = this;
+    try {
+      wx.removeStorageSync('高二');
+      that.setData({
+        hidden: false,
+        msg: "同步删除缓存数据成功！"
+      })
+    } catch (e) {
+      that.setData({
+        hidden: false,
+        msg: "同步删除缓存数据失败！"
+      });
+      console.log(e);
+    }
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.13 网络状态
+
+设计一个小程序，显示当前联网状态，当联网状态为WiFi时，显示WiFi的SSID、BSSID、安全性以及信号强度等信息。
+
+```html
+<!--pages/5_13/5_13.wxml-->
+<view class="box">
+  <view class="title">网络状态</view>
+  <view>当前网络状态是：{{status}}</view>
+  <button type="primary" bindtap="wifiStatus">Wi-Fi状态</button>
+
+  <view>
+    <view>SSID：{{res.SSID}}</view>
+    <view>BSSID：{{res.BSSID}}</view>
+    <view>安全性：{{res.secure}}</view>
+    <view>信号强度：{{res.signalStrength}}</view>
+  </view>
+</view>
+```
+
+```css
+// pages/5_13/5_13.js
+Page({
+  data: {
+    status: "获取中..."
+  },
+
+  onLoad: function(options) {
+    var that = this;
+
+    // 调用获取网络类型函数
+    wx.getNetworkType({
+      success: function(res) {
+        that.setData({
+          status: res.networkType
+        })
+      }
+    })
+
+    // 调用监听网络状态变化的函数
+    wx.onNetworkStatusChange(function(res) {
+      if(res.isConnected) {
+        that.setData({
+          status: res.networkType // 如果联网，显示网络类型
+        })
+      } else {
+        that.setData({
+          status: "未联网！"
+        })
+      }
+    })
+  },
+
+  wifiStatus: function() {
+    var that = this;
+    // 获取已经连接的wifi
+    wx.getConnectedWifi({
+      success: function(res) {
+        that.setData({
+          status: res.wifi
+        })
+      }
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.14 传感器
+
+设计一个小程序，实现启动、停止和监听罗盘传感器、加速度传感器和陀螺仪传感器的功能。
+
+```html
+<!--pages/5_14/5_14.wxml-->
+<view class="box">
+  <view class="title">传感器</view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="startCompass">启动罗盘监听</button>
+    <button type="primary" bindtap="stopCompass">停止罗盘监听</button>
+  </view>
+  <view class="txtLayout">
+    <view>罗盘方位角：{{resCompass.direction}}</view>
+    <view>罗盘精度：{{resCompass.accuracy}}</view>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="startAcc">启动加速度计</button>
+    <button type="primary" bindtap="stopAcc">停止加速度计</button>
+  </view>
+  <view class="txtLayout">
+    <view>X轴方向加速度：{{resAcc.x}}</view>
+    <view>Y轴方向加速度：{{resAcc.y}}</view>
+    <view>Z轴方向加速度：{{resAcc.z}}</view>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="startGyroscope">启动陀螺仪</button>
+    <button type="primary" bindtap="stopGyroscope">停止陀螺仪</button>
+  </view>
+  <view class="txtLayout">
+    <view>X轴方向角速度：{{resGyroscope.x}}</view>
+    <view>Y轴方向角速度：{{resGyroscope.y}}</view>
+    <view>Z轴方向角速度：{{resGyroscope.z}}</view>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_14/5_14.wxss */
+button {
+  margin: 10rpx;
+  width: 45%;
+}
+
+view {
+  margin: 5rpx 0rpx;
+  padding: 5rpx;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.txtLayout {
+  display: flex;
+  flex-direction: column;
+  margin: 5rpx 0rpx;
+}
+```
+
+```js
+// pages/5_14/5_14.js
+Page({
+  startCompass: function() {
+    var that = this;
+    wx.startCompass({
+      success: function() {
+        wx.onCompassChange(function(res) {
+          that.setData({
+            resCompass: res
+          })
+        })
+      }
+    })
+  },
+
+  stopCompass: function() {
+    var that = this;
+    wx.stopCompass({
+      success: function(res) {
+        console.log("罗盘已经停止！");
+      }
+    })
+  },
+
+  startAcc: function() {
+    var that = this;
+    wx.startAccelerometer({
+      success: function() {
+        wx.onAccelerometerChange(function(res) {
+          that.setData({
+            resAcc: res
+          })
+        })
+      }
+    })
+  },
+
+  stopAcc: function() {
+    var that = this;
+    wx.stopAccelerometer({
+      success: function(res) {
+        console.log("已停止加速度传感器监听！");
+      }
+    })
+  },
+
+  startGyroscope: function() {
+    var that = this;
+    wx.startGyroscope({
+      success: function() {
+        wx.onGyroscopeChange(function(res) {
+          that.setData({
+            resGyroscope: res
+          })
+        })
+      }
+    })
+  },
+
+  stopGyroscope: function() {
+    var that = this;
+    wx.stopGyroscope({
+      success: function(res) {
+        console.log("已停止陀螺仪传感器监听！");
+      }
+    })
+  }
+})
+```
+
+<div STYLE="page-break-after: always;"></div>
+
+### 5.15 扫码与打电话
+
+设计一个小程序，实现扫码、打电话和添加联系人信息的功能。
+
+```html
+<!--pages/5_15/5_15.wxml-->
+<view class="box">
+  <view class="title">扫码与打电话</view>
+
+  <button type="primary" bindtap="scanCode">开始扫码</button>
+  <view class="txtLayout">
+    <text>字符集：{{resCode.charSet}}</text>
+    <text>扫码类型：{{resCode.scanType}}</text>
+    <text>扫码结果：{{resCode.result}}</text>
+  </view>
+
+  <view class="txtLayout">
+    <input placeholder="请输入联系人姓名" bindblur="inputName"/>
+    <input placeholder="请输入联系人电话" bindblur="inputPhone" type="number"/>
+  </view>
+
+  <view class="btnLayout">
+    <button type="primary" bindtap="makeCall" style="width: 45%">拨打电话</button>
+    <button type="primary" bindtap="addPerson" style="width: 45%">添加联系人</button>
+  </view>
+</view>
+```
+
+```css
+/* pages/5_15/5_15.wxss */
+.txtLayout {
+  display: flex;
+  flex-direction: column;
+  margin: 20rpx 0rpx;
+  border: 1px solid burlywood;
+  padding: 10rpx;
+}
+
+text {
+  margin: 10rpx 0;
+}
+
+.btnLayout {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+input {
+  margin: 20rpx 0;
+  border-bottom: 1px solid blue;
+}
+```
+
+```js
+// pages/5_15/5_15.js
+Page({
+  name: "",
+  phone: "",
+
+  scanCode: function () {
+    var that = this;
+    wx.scanCode({
+      onlyFromCamera: false, // 通过摄像头和调用相册图片都可以进行扫码
+      scanType: [], // 不指定码的类型
+      success: function (res) {
+        that.setData({
+          resCode: res
+        })
+      }
+    })
+  },
+
+  inputName: function (e) {
+    this.name = e.detail.value;
+  },
+
+  inputPhone: function (e) {
+    this.phone = e.detail.value;
+  },
+
+  makeCall: function () {
+    let phone = this.name;
+    wx.makePhoneCall({
+      phoneNumber: phone,
+    })
+  },
+
+  addPerson: function() {
+    let name = this.name;
+    let phone = this.phone;
+    if(name == '' || phone == '') {
+      wx.showToast({
+        title: '姓名和电话不能为空',
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      wx.addPhoneContact({
+        firstName: name,
+        mobilePhoneNumber: phone
+      })
+    }
+  }
+})
+```
+

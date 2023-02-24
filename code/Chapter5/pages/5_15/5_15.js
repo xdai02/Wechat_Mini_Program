@@ -1,66 +1,50 @@
 // pages/5_15/5_15.js
 Page({
+  name: "",
+  phone: "",
 
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
+  scanCode: function () {
+    var that = this;
+    wx.scanCode({
+      onlyFromCamera: false, // 通过摄像头和调用相册图片都可以进行扫码
+      scanType: [], // 不指定码的类型
+      success: function (res) {
+        that.setData({
+          resCode: res
+        })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  inputName: function (e) {
+    this.name = e.detail.value;
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  inputPhone: function (e) {
+    this.phone = e.detail.value;
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  makeCall: function () {
+    let phone = this.name;
+    wx.makePhoneCall({
+      phoneNumber: phone,
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  addPerson: function() {
+    let name = this.name;
+    let phone = this.phone;
+    if(name == '' || phone == '') {
+      wx.showToast({
+        title: '姓名和电话不能为空',
+        icon: 'none',
+        duration: 2000
+      })
+    } else {
+      wx.addPhoneContact({
+        firstName: name,
+        mobilePhoneNumber: phone
+      })
+    }
   }
 })

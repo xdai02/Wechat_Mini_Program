@@ -1,66 +1,68 @@
 // pages/5_14/5_14.js
 Page({
-
-  /**
-   * 页面的初始数据
-   */
-  data: {
-
+  startCompass: function() {
+    var that = this;
+    wx.startCompass({
+      success: function() {
+        wx.onCompassChange(function(res) {
+          that.setData({
+            resCompass: res
+          })
+        })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  onLoad(options) {
-
+  stopCompass: function() {
+    var that = this;
+    wx.stopCompass({
+      success: function(res) {
+        console.log("罗盘已经停止！");
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
-
+  startAcc: function() {
+    var that = this;
+    wx.startAccelerometer({
+      success: function() {
+        wx.onAccelerometerChange(function(res) {
+          that.setData({
+            resAcc: res
+          })
+        })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow() {
-
+  stopAcc: function() {
+    var that = this;
+    wx.stopAccelerometer({
+      success: function(res) {
+        console.log("已停止加速度传感器监听！");
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
-
+  startGyroscope: function() {
+    var that = this;
+    wx.startGyroscope({
+      success: function() {
+        wx.onGyroscopeChange(function(res) {
+          that.setData({
+            resGyroscope: res
+          })
+        })
+      }
+    })
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
+  stopGyroscope: function() {
+    var that = this;
+    wx.stopGyroscope({
+      success: function(res) {
+        console.log("已停止陀螺仪传感器监听！");
+      }
+    })
   }
 })
